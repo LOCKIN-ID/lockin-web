@@ -1,0 +1,48 @@
+/* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts
+ *
+ * The /help index. One row is one link: a category chip and the title, no
+ * summary. The summary is the article page's job, and nine of them on one
+ * screen is what put this route over the 95-word screen budget.
+ *
+ * The link carries the padding, so the whole row is the hit target and the
+ * target stays 44 to 52px tall at every width. The arrow is drawn in CSS: it
+ * marks the row as one that opens without gluing a glyph to the link's label.
+ */
+
+.help-index { display: grid; gap: var(--space-2xl); }
+
+.help-index__row { background: var(--color-paper-3); }
+
+.help-index__link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  color: inherit;
+  text-decoration: none;
+}
+
+.help-index__link::after {
+  content: "\2192";
+  margin-inline-start: auto;
+  color: var(--color-ink-2);
+}
+
+.help-index__title {
+  flex: 1 1 auto;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: var(--text-lg);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.2;
+}
+
+.help-index__link:hover .help-index__title {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+@media (max-width: 40rem) {
+  .help-index__link { padding-inline: var(--space-md); }
+}

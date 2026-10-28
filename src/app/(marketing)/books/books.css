@@ -1,0 +1,149 @@
+/* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts */
+/* `/books` and the book detail route. Two layouts the shared base cannot carry.
+ *
+ * 1. The catalogue row. A book is one wide row: a plate carrying the tier and the
+ *    page count, then the title, the promise and the buy. Three cards side by side
+ *    put three promises and three chapter lists on one screen (gate 58); one row per
+ *    book, 27rem tall, puts one and a half there instead, and the chapter titles
+ *    stay on the detail page where they are the thing being sold.
+ * 2. The disclosures. The chapter-1 sample and each chapter's one-line goal sit in
+ *    native `<details>`: no JavaScript, still in the HTML, and off the screen until
+ *    asked for. The six chapter names stay visible, because they are the contents.
+ * 3. The buy row wraps instead of running 11px past a 375px screen under the page's
+ *    clip (gate 34); `.btn` is `white-space: nowrap`, so the row wraps around it.
+ *
+ * Colours, faces and space are all tokens from `tokens.css`; no literal is declared.
+ */
+
+/* The catalogue closes the route: 144px between the last row and the footer, so
+   the last promise and the footer's two bands are never read as one screen. */
+.catalogue { display: grid; gap: var(--space-3xl); margin-top: var(--space-xl); padding-bottom: var(--space-4xl); }
+
+.book-row {
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+}
+
+.book-row__plate {
+  display: grid;
+  gap: var(--space-2xs);
+  place-content: center;
+  justify-items: center;
+  padding: var(--space-lg);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-2);
+  text-align: center;
+}
+.book-row__tier {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: var(--text-2xl);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-display);
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+.book-row__pages { font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-ink-2); }
+
+.book-row__body { display: grid; gap: var(--space-sm); align-content: center; min-width: 0; }
+.book-row__title { font-size: var(--text-2xl); }
+.book-row__title a { text-decoration: none; }
+.book-row__title a:hover { text-decoration: underline; }
+.book-row__promise { color: var(--color-ink-2); }
+.book-row__count { font-size: var(--text-sm); color: var(--color-ink-2); }
+
+.book-row__buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.book-row__price { margin-right: auto; font-family: var(--font-outlier); font-size: var(--text-xl); font-weight: 700; }
+
+@media (min-width: 64rem) {
+  .book-row {
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) minmax(0, 12rem);
+    align-items: center;
+    gap: var(--space-xl);
+    min-height: 27rem;
+    padding: var(--space-xl);
+  }
+  .book-row__plate { align-self: stretch; }
+  .book-row__buy { flex-direction: column; align-items: stretch; justify-content: center; gap: var(--space-md); }
+  .book-row__price { margin-right: 0; text-align: center; }
+}
+
+/* ---- the packed catalogue note ---------------------------------------- */
+.catalogue-note { margin-top: var(--space-lg); padding: var(--space-md) var(--space-lg); }
+.catalogue-note p { color: var(--color-ink-2); }
+
+/* ---- disclosures ------------------------------------------------------ */
+/* 144px between the three bands: the layout steps want 120px or more. */
+.book-sample { margin-top: var(--space-4xl); }
+.book-inside { margin-top: var(--space-4xl); }
+.book-gate { margin-top: var(--space-4xl); }
+
+.book-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 44px;
+  padding: 0 var(--space-lg);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.disclosure > summary::-webkit-details-marker { display: none; }
+/* A closed `<details>` keeps its contents laid out in this engine: a page reading
+   the DOM would still count every word. Take them out of the layout until asked
+   for; the browser's own toggle still opens it with scripting off. */
+.disclosure:not([open]) > .disclosure__body,
+.chapter:not([open]) > .chapter__goal { display: none; }
+.disclosure > summary::before { content: "+"; font-family: var(--font-outlier); color: var(--color-forest); }
+.disclosure[open] > summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.disclosure[open] > summary::before { content: "\2212"; }
+.disclosure__body { display: grid; gap: var(--space-xl); margin-top: var(--space-lg); max-width: 75ch; }
+.disclosure__body > * { min-width: 0; }
+
+/* The chapter list: the names stay on the screen, the goal waits a click. */
+.chapter-list { margin-top: var(--space-md); }
+.chapter-list > li + li { border-top: var(--rule-hair) solid var(--color-rule); }
+.chapter > summary {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding-block: var(--space-sm);
+  cursor: pointer;
+  list-style: none;
+}
+.chapter > summary::-webkit-details-marker { display: none; }
+.chapter__n { font-family: var(--font-outlier); font-weight: 700; color: var(--color-forest); }
+.chapter > summary::after { content: "+"; margin-left: auto; font-family: var(--font-outlier); color: var(--color-ink-2); }
+.chapter[open] > summary::after { content: "\2212"; }
+.chapter__goal { padding-bottom: var(--space-sm); font-size: var(--text-sm); color: var(--color-ink-2); }
+
+/* ---- the buy row and the meta row at the top of a detail page ---------- */
+.book-meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; }
+.book-meta__pages { font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-ink-2); }
+.book-buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+.book-buy__price { font-family: var(--font-outlier); font-size: var(--text-2xl); font-weight: 800; }

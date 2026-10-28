@@ -1,0 +1,109 @@
+/* LOCK.IN design tokens.
+ * The only place a colour or a family is declared (Hallmark Floor 1).
+ * Values are OKLCH, converted from the exact colours sampled out of `Lock.in.pdf`;
+ * the sample each one comes from is recorded in `design.md`.
+ * No `--spacing-*` here: Tailwind sizes `w-`, `max-w-`, `p-` and `gap-` from that
+ * namespace, so the space scale stays in `:root` on its own names.
+ */
+@theme static {
+  --color-paper: oklch(96.02% 0.0121 96.4);
+  --color-paper-2: oklch(92.68% 0.0176 96.1);
+  --color-paper-3: oklch(99.07% 0.0054 95.1);
+  --color-ink: oklch(26.15% 0.0384 157.6);
+  --color-ink-2: oklch(37.59% 0.0579 150.6);
+  --color-muted: oklch(42% 0.026 154);
+  --color-rule: oklch(86.31% 0.0236 93.4);
+  --color-accent: oklch(83.27% 0.1901 157.9);
+  --color-accent-ink: oklch(31.1% 0.0626 159.5);
+  --color-mint-vivid: oklch(64.86% 0.149 157.7);
+  --color-focus: oklch(46.62% 0.1066 157.3);
+  --color-forest: oklch(37.59% 0.0579 150.6);
+  --color-forest-deep: oklch(31.02% 0.0462 150.6);
+  --color-taupe: oklch(70.21% 0.0378 51.8);
+  --color-error: oklch(48% 0.17 27);
+  --color-success: oklch(46% 0.1 152);
+
+  --font-title: var(--font-valorant), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-outlier: var(--font-mono-code), ui-monospace, SFMono-Regular, monospace;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-display-s: clamp(2.125rem, 3.4vw + 0.6rem, 3.5rem);
+  --text-display: clamp(2.5rem, 5.4vw + 0.4rem, 4.75rem);
+  --text-section: clamp(1.75rem, 2vw + 1rem, 2.75rem);
+  --text-title: clamp(1.1875rem, 0.6vw + 0.9rem, 1.5rem);
+  --text-lead: clamp(1.0625rem, 0.3vw + 1rem, 1.25rem);
+
+  --tracking-display: -0.02em;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 2px oklch(26.15% 0.0384 157.6 / 0.06);
+  --shadow-raised: 0 6px 18px oklch(26.15% 0.0384 157.6 / 0.1);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+  --display-weight: 900;
+
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+
+  --dur-micro: 260ms;
+  --dur-short: 380ms;
+  --dur-long: 580ms;
+
+  --container: 1080px;
+  --gutter: 56px;
+  --gap-columns: 32px;
+  --section-gap-s: 84px;
+  --section-gap: 108px;
+  --section-gap-l: 136px;
+
+  --rule-hair: 1px;
+
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-sticky-nav: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}
+
+@media (max-width: 60rem) {
+  :root {
+    --gutter: 32px;
+    --section-gap-s: 56px;
+    --section-gap: 72px;
+    --section-gap-l: 92px;
+  }
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --gutter: 20px;
+    --gap-columns: 16px;
+    --section-gap-s: 44px;
+    --section-gap: 56px;
+    --section-gap-l: 68px;
+  }
+}

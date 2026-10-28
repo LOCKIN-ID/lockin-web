@@ -1,0 +1,486 @@
+// LOCK.IN schema. SQLite, adapter-only runtime: the URL lives in `prisma.config.ts`,
+// so `datasource` deliberately carries no `url`.
+//
+// SQLite shapes everything here: no scalar lists (join tables or `Json`), ids are
+// strings, and enum-like columns are `String` with the allowed values in a comment.
+// The four identity models below are not hand-invented: they are the field list
+// `getAuthTables()` returns for better-auth 1.7.12 with the admin plugin enabled
+// (see `scripts/print-auth-schema.mjs`), written out in Prisma.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ---- identity (better-auth 1.7.12 + admin plugin) --------------------------
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          String?
+  banned        Boolean?  @default(false)
+  banReason     String?
+  banExpires    DateTime?
+
+  sessions         Session[]
+  accounts         Account[]
+  profile          Profile?
+  xpEvents         XpEvent[]
+  dailyActivity    DailyActivity[]
+  userBadges       UserBadge[]
+  orders           Order[]
+  entitlements     Entitlement[]
+  questCompletions QuestCompletion[]
+  readingProgress  ReadingProgress[]
+  bookmarks        Bookmark[]
+  snippets         Snippet[]
+  playgroundRuns   PlaygroundRun[]
+  chatThreads      ChatThread[]
+  emailPreference  EmailPreference?
+  emailJobs        EmailJob[]
+  tickets          Ticket[]
+  redemptions      Redemption[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id             String   @id
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  impersonatedBy String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ---- profile, progress and points ------------------------------------------
+
+model Profile {
+  userId        String   @id
+  xp            Int      @default(0)
+  level         Int      @default(1)
+  streakCurrent Int      @default(0)
+  streakBest    Int      @default(0)
+  lastStreakDay String? // "YYYY-MM-DD" in Asia/Jakarta
+  daysActive    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model XpEvent {
+  id        String   @id @default(uuid())
+  userId    String
+  amount    Int
+  source    String // XpSource: section | checkpoint | quest | playground | streak | badge | redemption
+  refId     String // "" when not applicable; part of the uniqueness key
+  dayKey    String // "YYYY-MM-DD", Asia/Jakarta
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, source, refId])
+  @@index([userId, dayKey])
+  @@index([dayKey])
+}
+
+model DailyActivity {
+  id       String @id @default(uuid())
+  userId   String
+  dayKey   String
+  xpEarned Int    @default(0)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, dayKey])
+}
+
+model Badge {
+  id          String      @id @default(uuid())
+  slug        String      @unique
+  title       String
+  requirement String
+  rule        Json
+  kind        String // BadgeKind: progress | streak | skill | community
+  xpReward    Int         @default(0)
+  sortOrder   Int         @default(0)
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(uuid())
+  userId    String
+  badgeId   String
+  awardedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+}
+
+// ---- catalogue, orders, entitlements ---------------------------------------
+
+model Book {
+  id           String    @id @default(uuid())
+  slug         String    @unique // must equal the content module's slug
+  title        String
+  tier         String // beginner | intermediate | expert
+  levelLabel   String // the deck's label, e.g. "Spesialis Riko"
+  blurb        String // one sentence, the catalogue row
+  promise      String // one sentence, the detail page
+  pageCount    Int
+  priceIdr     Int
+  compareAtIdr Int?
+  coverPath    String // "/brand/covers/<slug>.svg"
+  bandToken    String // forest | mint | taupe
+  pdfPath      String? // "/ebooks/<slug>.pdf" once generated
+  publishedAt  DateTime?
+  sortOrder    Int // 1 beginner, 2 intermediate, 3 expert
+  updatedAt    DateTime  @updatedAt
+}
+
+model Order {
+  id              String    @id @default(uuid())
+  userId          String
+  status          String // OrderStatus: pending | paid | failed | expired | refunded
+  provider        String // PaymentProvider: mock | midtrans
+  providerOrderId String    @unique // LOCKIN-<base36 ts>-<6 random>
+  providerToken   String?
+  grossAmountIdr  Int
+  discountIdr     Int       @default(0)
+  couponCode      String?
+  currency        String    @default("IDR")
+  channel         String? // qris | va_bca | va_bni | gopay | card | snap
+  vaNumber        String?
+  qrString        String?
+  expiresAt       DateTime
+  paidAt          DateTime?
+  failureReason   String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items           OrderItem[]
+
+  @@index([userId, createdAt])
+}
+
+model OrderItem {
+  id            String @id @default(uuid())
+  orderId       String
+  kind          String // ItemKind: book | bundle | pro_subscription | lifetime
+  refId         String // book slug, or "" for bundle/subscription
+  titleSnapshot String
+  priceIdr      Int
+  qty           Int    @default(1)
+  order         Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+}
+
+model Entitlement {
+  id            String    @id @default(uuid())
+  userId        String
+  kind          String // EntitlementKind: book | all_books | pro
+  refId         String // book slug for kind=book, else ""
+  sourceOrderId String?
+  grantedAt     DateTime  @default(now())
+  expiresAt     DateTime? // null = lifetime
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kind, refId])
+  @@index([userId])
+}
+
+model WebhookEvent {
+  id             String    @id @default(uuid())
+  provider       String
+  eventId        String
+  orderId        String?
+  signatureValid Boolean
+  statusString   String?
+  payload        Json
+  receivedAt     DateTime  @default(now())
+  processedAt    DateTime?
+
+  @@unique([provider, eventId])
+}
+
+// ---- quests, reading, snippets, the coach ----------------------------------
+
+model Quest {
+  id           String            @id @default(uuid())
+  slug         String            @unique // the QR payload tail: /q/<slug>
+  code         String            @unique // the 6 characters printed under the QR
+  title        String
+  kind         String // QuestKind: quiz | repo | video | bank_soal | checkpoint
+  bookSlug     String
+  chapterId    String
+  targetUrl    String?
+  payload      Json // quiz items or embed config, authored in content
+  xpReward     Int
+  publishedAt  DateTime?
+  expiresAt    DateTime?
+  revokedAt    DateTime?
+  createdAt    DateTime          @default(now())
+  completions  QuestCompletion[]
+
+  @@index([bookSlug, chapterId])
+}
+
+model QuestCompletion {
+  id          String   @id @default(uuid())
+  userId      String
+  questId     String
+  score       Int?
+  total       Int?
+  completedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quest       Quest    @relation(fields: [questId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questId])
+}
+
+model ReadingProgress {
+  id           String    @id @default(uuid())
+  userId       String
+  bookSlug     String
+  chapterId    String
+  sectionId    String
+  secondsSpent Int       @default(0)
+  completedAt  DateTime?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookSlug, chapterId, sectionId])
+  @@index([userId, bookSlug])
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  userId    String
+  bookSlug  String
+  chapterId String
+  sectionId String   @default("")
+  note      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookSlug, chapterId, sectionId])
+}
+
+model Snippet {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  language  String // html | js | python | shell
+  code      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+}
+
+model PlaygroundRun {
+  id         String   @id @default(uuid())
+  userId     String
+  language   String
+  ok         Boolean
+  errorKind  String?
+  durationMs Int
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model ChatThread {
+  id        String        @id @default(uuid())
+  userId    String
+  title     String
+  bookSlug  String?
+  chapterId String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+
+  @@index([userId, updatedAt])
+}
+
+model ChatMessage {
+  id        String     @id @default(uuid())
+  threadId  String
+  role      String // user | assistant | system
+  content   String
+  hintLevel Int        @default(0)
+  provider  String // offline | openrouter | gemini
+  model     String
+  latencyMs Int?
+  createdAt DateTime   @default(now())
+  thread    ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@index([threadId, createdAt])
+}
+
+// ---- retention e-mail ------------------------------------------------------
+
+model EmailPreference {
+  userId         String    @id
+  tips           Boolean   @default(true)
+  streak         Boolean   @default(true)
+  product        Boolean   @default(true)
+  digest         Boolean   @default(true)
+  unsubscribedAt DateTime?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmailJob {
+  id                String    @id @default(uuid())
+  userId            String
+  template          String // welcome | tip_day_1 | tip_day_3 | tip_day_7 | streak_reminder | weekly_digest | receipt | password_reset
+  subject           String
+  payloadJson       Json
+  status            String // queued | sent | failed | skipped
+  scheduledFor      DateTime
+  attempts          Int       @default(0)
+  lastError         String?
+  providerMessageId String?
+  sentAt            DateTime?
+  dedupeKey         String // e.g. "2026-10-25"
+  createdAt         DateTime  @default(now())
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, template, dedupeKey])
+  @@index([status, scheduledFor])
+}
+
+// ---- customer service ------------------------------------------------------
+
+model Ticket {
+  id        String          @id @default(uuid())
+  userId    String?
+  email     String
+  name      String
+  subject   String
+  category  String // account | payment | content | bug | other
+  status    String // open | pending | resolved
+  orderRef  String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  closedAt  DateTime?
+  user      User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  messages  TicketMessage[]
+
+  @@index([status, updatedAt])
+}
+
+model TicketMessage {
+  id         String   @id @default(uuid())
+  ticketId   String
+  authorRole String // user | agent | ai
+  authorName String
+  body       String
+  createdAt  DateTime @default(now())
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, createdAt])
+}
+
+model HelpArticle {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  title     String
+  category  String
+  summary   String
+  bodyMd    String
+  keywords  String // space-separated, feeds the AI helper's retrieval
+  sortOrder Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+// ---- rewards and coupons ---------------------------------------------------
+
+model Reward {
+  id          String       @id @default(uuid())
+  slug        String       @unique
+  title       String
+  description String
+  costXp      Int
+  kind        String // coupon | cheatsheet | template | badge_pin
+  value       String // coupon code pattern or asset slug
+  stock       Int?
+  active      Boolean      @default(true)
+  sortOrder   Int          @default(0)
+  redemptions Redemption[]
+}
+
+model Redemption {
+  id         String   @id @default(uuid())
+  userId     String
+  rewardId   String
+  code       String   @unique
+  redeemedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reward     Reward   @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, rewardId])
+}
+
+model Coupon {
+  code          String    @id
+  percentOffBps Int // 1000 = 10%
+  amountOffIdr  Int?
+  appliesTo     String // all | book | pro
+  maxUses       Int?
+  uses          Int       @default(0)
+  expiresAt     DateTime?
+  active        Boolean   @default(true)
+}

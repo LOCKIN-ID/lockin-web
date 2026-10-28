@@ -1,0 +1,632 @@
+/* The base rules Hallmark's Floor already decided, plus LOCK.IN's control recipes.
+ * Imported as `layer(base)`, so any utility on the same element still wins.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  overflow-x: clip;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+html { scroll-padding-top: var(--space-3xl); scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--color-ink);
+}
+
+::selection { background: color-mix(in oklab, var(--color-accent) 40%, transparent); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+  transition: color var(--dur-short) var(--ease-out), opacity var(--dur-short) var(--ease-out);
+}
+/* Three weights in running use, picked as extremes: body 400, emphasis and
+ * controls 600, display 900. The browser's default `strong` is 700, which would
+ * be a fourth. */
+strong, b { font-weight: 600; }
+
+h1, h2 {
+  margin: 0;
+  font-family: var(--font-valorant), var(--font-display);
+  font-weight: 800;
+  font-synthesis: none;
+  letter-spacing: 0.02em;
+  line-height: 1.08;
+  overflow-wrap: break-word;
+  min-width: 0;
+  text-wrap: balance;
+}
+
+h3, h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight, 800);
+  font-synthesis: none;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.15;
+  overflow-wrap: break-word;
+  min-width: 0;
+  text-wrap: balance;
+}
+
+/* Mint Accent Word Color for Headings (Font color only, no background box) */
+.highlight-mint {
+  color: var(--color-mint-vivid);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  display: inline;
+}
+
+.band-deep .highlight-mint,
+.band-forest .highlight-mint,
+.plate--dark .highlight-mint,
+.hero .highlight-mint {
+  color: var(--color-accent);
+  background: transparent;
+}
+h1 { max-width: 20ch; font-size: var(--text-display); }
+h2 { max-width: 30ch; font-size: var(--text-section); }
+h3 { max-width: 40ch; font-size: var(--text-title); line-height: 1.2; }
+h4 { max-width: 40ch; font-size: var(--text-lg); line-height: 1.25; }
+
+.lead { font-size: var(--text-lead); line-height: 1.45; max-width: 52ch; }
+p { margin: 0; text-wrap: pretty; }
+p:not([class]) { max-width: 65ch; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+figure { margin: 0; }
+img, video { max-width: 100%; height: auto; display: block; }
+svg { display: block; }
+[hidden] { display: none !important; }
+button, input, select, textarea { font: inherit; color: inherit; }
+code, kbd, pre { font-family: var(--font-outlier); font-variant-ligatures: none; }
+
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+.num, .figure, td.num, .tnum { font-variant-numeric: tabular-nums; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* A way past the chrome (patterns.md § A way past the nav). */
+.skip {
+  position: absolute;
+  left: var(--space-md);
+  top: calc(-1 * var(--space-3xl));
+  z-index: var(--z-toast);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  text-decoration: none;
+}
+.skip:focus-visible { top: var(--space-md); }
+
+/* Controls: eight interaction states */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: 44px;
+  padding: 0 var(--space-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    color var(--dur-short) var(--ease-out),
+    border-color var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out),
+    box-shadow var(--dur-short) var(--ease-out);
+}
+.btn:hover { background: color-mix(in oklab, var(--color-accent) 84%, var(--color-ink)); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; transform: none; }
+.btn[aria-busy="true"] { cursor: progress; }
+
+.btn--quiet {
+  background: transparent;
+  border-color: var(--color-rule);
+  color: var(--color-ink);
+}
+.btn--quiet:hover { background: var(--color-paper-2); }
+.btn--sm { min-height: 36px; padding: 0 var(--space-md); font-size: var(--text-sm); }
+@media (pointer: coarse), (max-width: 640px) {
+  .btn--sm { min-height: 44px; }
+}
+.btn--icon { padding: 0 var(--space-md); }
+
+/* Fields */
+.field { display: grid; gap: var(--space-2xs); }
+.field > label, .label { font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-ink-2); }
+.input, .textarea, .select {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-3);
+  outline: 2px solid transparent;
+  outline-offset: -3px;
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    border-color var(--dur-short) var(--ease-out);
+}
+.input:hover, .textarea:hover, .select:hover { background: var(--color-paper-2); }
+.input:focus-visible, .textarea:focus-visible, .select:focus-visible { outline-color: var(--color-focus); border-color: var(--color-ink-2); }
+.input[aria-invalid="true"], .textarea[aria-invalid="true"] { border-color: var(--color-error); }
+.input:disabled, .textarea:disabled, .select:disabled { opacity: 0.55; cursor: not-allowed; }
+.textarea { min-height: 6rem; resize: vertical; line-height: 1.5; }
+.field__help { min-height: 1lh; font-size: var(--text-sm); color: var(--color-muted); }
+.field__help[data-tone="error"] { color: var(--color-error); }
+.checkbox { accent-color: var(--color-focus); width: 1.15rem; height: 1.15rem; }
+
+/* ---- surfaces --------------------------------------------------------- */
+.panel {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-3);
+  transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);
+}
+.panel--interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
+  border-color: var(--color-muted);
+}
+.panel--raised { border-color: transparent; box-shadow: var(--shadow-raised); background: var(--color-paper-3); }
+.well { border-radius: var(--radius-card); background: var(--color-paper-2); }
+.band-forest { background: var(--color-forest); color: var(--color-paper); }
+.band-deep { background: var(--color-forest-deep); color: var(--color-paper); }
+.hair { border-top: var(--rule-hair) solid var(--color-rule); }
+.hair-strong { border-top: var(--rule-hair) solid var(--color-muted); }
+
+/* ---- chips, ticks, tags ---------------------------------------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-sm);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  text-decoration: none;
+  background: var(--color-paper-3);
+  transition:
+    background-color var(--dur-short) var(--ease-out),
+    color var(--dur-short) var(--ease-out),
+    border-color var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out);
+}
+a.chip:hover, button.chip:hover { background: var(--color-paper-2); transform: translateY(-1px); }
+a.chip:active, button.chip:active { transform: translateY(1px); }
+.chip[aria-current="page"], .chip[data-state="on"] { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
+
+/* ---- code and console ------------------------------------------------ */
+.code {
+  margin: 0;
+  padding: var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--color-forest-deep);
+  color: var(--color-paper);
+  font-family: var(--font-outlier);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  overflow-x: auto;
+  tab-size: 2;
+}
+.code__line { display: block; padding-left: 2.25rem; position: relative; }
+.code__num {
+  position: absolute;
+  left: 0;
+  width: 1.75rem;
+  text-align: right;
+  color: color-mix(in oklab, var(--color-paper) 38%, transparent);
+  user-select: none;
+}
+.console {
+  height: 100%;
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--color-forest-deep);
+  color: var(--color-paper);
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  overflow: auto;
+}
+.console__line + .console__line { margin-top: var(--space-3xs); }
+.console__line[data-level="err"] { color: color-mix(in oklab, var(--color-error) 62%, var(--color-paper)); }
+.console__line[data-level="warn"] { color: color-mix(in oklab, var(--color-taupe) 78%, var(--color-paper)); }
+.console__meta { color: color-mix(in oklab, var(--color-paper) 70%, transparent); }
+.kbd { padding: 0 var(--space-2xs); border: 1px solid var(--color-muted); border-radius: 4px; font-size: var(--text-xs); }
+
+/* Page transitions: App Router & View Transitions API */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root) {
+  animation: pageExit 0.2s cubic-bezier(0.7, 0, 0.84, 0) both;
+}
+
+::view-transition-new(root) {
+  animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pageExit {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.995) translateY(-6px); }
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-transition {
+  animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform;
+}
+
+/* ---- one reveal, visible without scripting --------------------------- */
+/* The finished layout is what the CSS says; only the `.js` class the inline
+   script adds hides the start state (Hallmark 62). `data-reveal` picks the
+   direction, `--i` (set per child by `Reveal`) staggers a group. Reduced
+   motion lands every element on its end state at once. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(4px);
+  will-change: transform, opacity, filter;
+}
+.js [data-reveal="up"] {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(4px);
+}
+.js [data-reveal="left"] {
+  opacity: 0;
+  transform: translateX(-32px);
+  filter: blur(4px);
+}
+.js [data-reveal="right"] {
+  opacity: 0;
+  transform: translateX(32px);
+  filter: blur(4px);
+}
+.js [data-reveal="scale"] {
+  opacity: 0;
+  transform: scale(0.95);
+  filter: blur(4px);
+}
+.js [data-reveal="plate"] {
+  opacity: 0;
+  transform: translateY(36px) scale(0.98);
+  filter: blur(5px);
+}
+.js [data-reveal].is-in {
+  --reveal-delay: calc(var(--i, 0) * 75ms);
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+  transition:
+    opacity 650ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    transform 650ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    filter 650ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  .page-transition,
+  .js [data-reveal],
+  .js [data-reveal="up"],
+  .js [data-reveal="left"],
+  .js [data-reveal="right"],
+  .js [data-reveal="scale"],
+  .js [data-reveal="plate"],
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* 60fps Floating scroll indicator bounce (transform only) */
+@keyframes bounceScroll {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3.5px);
+  }
+}
+.scroll-arrow-bounce {
+  animation: bounceScroll 1.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ---- the tagline band ----------------------------------------------- */
+.marquee { overflow: hidden; position: relative; }
+.marquee__track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee__cell { flex: none; padding-inline: var(--space-lg); display: inline-flex; align-items: center; }
+@keyframes marquee { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+.marquee:hover .marquee__track, .marquee:focus-within .marquee__track, .marquee.is-paused .marquee__track { animation-play-state: paused; }
+.marquee--reverse .marquee__track { animation-direction: reverse; }
+.marquee--fast .marquee__track { animation-duration: 24s; }
+.marquee--slow .marquee__track { animation-duration: 52s; }
+
+.band-mint {
+  background: var(--color-paper-2);
+  color: var(--color-forest);
+  border-block: 1px solid var(--color-focus);
+}
+.band-paper-ribbon {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+  border-block: 1px solid var(--color-rule);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; transform: none; width: 100%; justify-content: center; }
+  .marquee [data-clone="true"] { display: none; }
+}
+
+/* ---- accessible drawer and modal motion ------------------------------ */
+.drawer-enter {
+  animation: drawer-in var(--dur-short) var(--ease-out) both;
+}
+@keyframes drawer-in {
+  from { transform: translateX(100%); opacity: 0.8; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.overlay-fade {
+  animation: overlay-in var(--dur-short) var(--ease-out) both;
+}
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawer-enter {
+    animation: drawer-fade 150ms var(--ease-out) both;
+    transform: none !important;
+  }
+  @keyframes drawer-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .panel--interactive:hover {
+    transform: none !important;
+  }
+  a.chip:hover, button.chip:hover, a.chip:active, button.chip:active {
+    transform: none !important;
+  }
+}
+
+/* ---- plates: the surface below the hero ------------------------------ */
+/* A card is a plate: one hairline, one radius, one accent rule that draws
+   across its top edge on hover or focus. No shadow, so a plate never doubles
+   a defined edge (Hallmark F24), and the row of plates below varies its fill
+   by role rather than repeating one recipe (F7). */
+.plate {
+  position: relative;
+  overflow: clip;
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-3);
+  transition:
+    border-color var(--dur-short) var(--ease-out),
+    background-color var(--dur-short) var(--ease-out);
+}
+.plate::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-short) var(--ease-out);
+}
+.plate:hover::before,
+.plate:focus-within::before,
+.plate.is-drawn::before { transform: scaleX(1); }
+.plate--tint { border-color: transparent; background: var(--color-paper-2); }
+.plate--dark {
+  border-color: color-mix(in oklab, var(--color-paper) 24%, transparent);
+  background: var(--color-forest-deep);
+  color: var(--color-paper);
+}
+.plate--bare { border-color: transparent; background: transparent; }
+.plate__body { display: grid; gap: var(--space-md); padding: var(--space-xl); }
+.plate__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+.plate--dark .plate__foot { border-block-start-color: color-mix(in oklab, var(--color-paper) 24%, transparent); }
+.plate--dark .stats__label { color: color-mix(in oklab, var(--color-paper) 76%, transparent); }
+
+/* Numbered rows */
+.rows { display: grid; }
+.rows > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: baseline;
+  padding-block: var(--space-sm);
+}
+.rows > li + li { border-block-start: var(--rule-hair) solid var(--color-rule); }
+.rows__num {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- figures that compare: parted by a hairline, never boxed ---------- */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: var(--space-lg); }
+.stats > * {
+  display: grid;
+  gap: var(--space-2xs);
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+  padding-block-start: var(--space-sm);
+}
+.stats__figure {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--display-weight);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stats__label { font-size: var(--text-xs); color: var(--color-muted); }
+
+/* ---- the shelf: books stand in a row, not a grid of equal boxes ------- */
+.shelf { display: grid; gap: var(--space-2xl); }
+.shelf__row { display: grid; gap: var(--gap-columns); }
+.shelf__cover {
+  position: relative;
+  overflow: clip;
+  display: grid;
+  align-content: space-between;
+  gap: var(--space-lg);
+  padding: var(--space-xl);
+  border-radius: var(--radius-card);
+}
+/* The sprig the deck prints at a cover's bottom-right, repeated on every
+   cover at the cover's own tone; the cover's blocks sit above it. */
+.shelf__cover > * + * { position: relative; }
+.shelf__facts { display: grid; gap: var(--space-md); align-content: start; }
+.shelf__rule { border-block-start: var(--rule-hair) solid var(--color-rule); }
+@media (min-width: 60rem) {
+  .shelf__row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: stretch; }
+  .shelf__row:nth-child(even) .shelf__cover { grid-column: 2; grid-row: 1; }
+  .shelf__row:nth-child(even) .shelf__facts { grid-column: 1; grid-row: 1; }
+  /* The lean: two rows step in from the left, so the row reads as a shelf
+     rather than a stack. */
+  .shelf__row:nth-child(2) { margin-inline-start: var(--space-2xl); }
+  .shelf__row:nth-child(3) { margin-inline-start: var(--space-4xl); }
+  .shelf__cover { min-height: 17rem; }
+}
+
+/* ---- the scroll story: the landing page's one scrub-linked pattern ---- */
+/* Static first: below the timeline's support and breakpoint the section is a
+   heading beside three plates, complete and still. Inside the `@supports` and
+   its motion/media guards the track grows, the left pane pins, the meter
+   fills and each plate settles as it arrives (scroll-choreography.md). */
+.scrolly { position: relative; }
+.scrolly__grid { display: grid; gap: var(--space-2xl); }
+.scrolly__pin { display: grid; gap: var(--space-lg); align-content: start; }
+.scrolly__index { display: grid; gap: var(--space-2xs); }
+.scrolly__tab {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: baseline;
+  padding-block: var(--space-xs);
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+.scrolly__steps { display: grid; gap: var(--space-xl); }
+.scrolly__step {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+  padding: var(--space-xl);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-3);
+}
+.scrolly__step > h3 { font-size: var(--text-2xl); }
+.scrolly__meter { display: none; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 60rem) {
+    .scrolly__grid {
+      min-height: 250vh;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--gap-columns);
+      align-items: start;
+      view-timeline-name: --scrolly;
+      view-timeline-axis: block;
+    }
+    .scrolly__pin { position: sticky; top: var(--space-3xl); }
+    .scrolly__meter {
+      display: block;
+      position: relative;
+      inline-size: var(--rule-hair);
+      block-size: var(--space-xl);
+      margin-inline-start: var(--space-2xs);
+      background: var(--color-rule);
+    }
+    .scrolly__meter > span {
+      position: absolute;
+      inset-block-start: 0;
+      inline-size: 100%;
+      block-size: 100%;
+      display: block;
+      background: var(--color-accent);
+      transform-origin: top center;
+      animation: scrolly-meter linear both;
+      animation-timeline: --scrolly;
+      animation-range: contain 6% contain 92%;
+    }
+    .scrolly__step {
+      min-height: 46vh;
+      opacity: 1;
+    }
+    /* Each index line lights in its own slice and holds, so the pane keeps
+       saying which plate the reader is on without a script. */
+    .scrolly__tab:nth-child(1) { animation: scrolly-tab linear both; animation-timeline: --scrolly; animation-range: contain 8% contain 32%; }
+    .scrolly__tab:nth-child(2) { animation: scrolly-tab linear both; animation-timeline: --scrolly; animation-range: contain 36% contain 60%; }
+    .scrolly__tab:nth-child(3) { animation: scrolly-tab linear both; animation-timeline: --scrolly; animation-range: contain 64% contain 88%; }
+  }
+}
+@keyframes scrolly-step {
+  from { opacity: 1; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes scrolly-tab {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+@keyframes scrolly-meter {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *:not(.keep-motion), *:not(.keep-motion)::before, *:not(.keep-motion)::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

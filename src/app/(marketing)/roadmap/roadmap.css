@@ -1,0 +1,301 @@
+/* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts */
+/* /roadmap: the opening lane map, the three tier sections and the node cards.
+ *
+ * Why this file exists: the page must show eighteen nodes without putting more
+ * than a screen's worth of words in front of the reader. So the card carries the
+ * title, the state chip and the section counter, and the node's keywords and
+ * prerequisites live in a <details> that is closed by default: the facts stay in
+ * the HTML, the screen stays readable. The opening band holds the lane map, so
+ * the first screen is the whole progression at a glance instead of a half-empty
+ * head. Colours and families come from tokens only.
+ */
+
+/* ---- the opening band ------------------------------------------------- */
+
+/* The first screen is the page's cover: headline, progress, up next and the
+   lane map. It runs to about 850px at 1440 so the tier grid starts under the
+   fold instead of the head ending with the screen half empty. */
+.pagehead.roadmap-head {
+  padding-block: var(--space-3xl) var(--space-2xl);
+  gap: var(--space-lg);
+}
+
+.roadmap-open__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm) var(--space-md);
+}
+
+.roadmap-open__who {
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+/* Up next on the left, the three lanes on the right; one column under 64rem.
+   `width: 100%` because the page head starts its children at their content
+   width, and this row is the one child that must span the measure. */
+.roadmap-open__body {
+  display: grid;
+  width: 100%;
+  gap: var(--space-xl);
+}
+@media (min-width: 64rem) {
+  .roadmap-open__body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: var(--space-2xl);
+    align-items: stretch;
+  }
+}
+
+.upnext {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-2);
+}
+
+.upnext__tag {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-ink-2);
+}
+
+.upnext__title {
+  font-size: var(--text-xl);
+  margin-top: var(--space-2xs);
+}
+
+.upnext__meta {
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  margin-top: var(--space-xs);
+}
+
+/* ---- the lane map ----------------------------------------------------- */
+
+.lanes {
+  display: grid;
+  gap: var(--space-lg);
+  align-content: space-between;
+}
+
+.lane {
+  display: grid;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.lane__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.lane__name {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.lane__name:hover { border-bottom-color: var(--color-accent); }
+
+.lane__count {
+  font-family: var(--font-outlier);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+/* Six cells, one per node in the tier: the tier's own shape, no words. */
+.lane__ticks {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  height: 14px;
+}
+
+.lane__tick {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-2);
+}
+.lane__tick[data-state="done"] { background: var(--color-accent); border-color: var(--color-accent); }
+.lane__tick[data-state="ready"] { background: color-mix(in oklab, var(--color-forest) 62%, var(--color-paper)); border-color: var(--color-forest); }
+
+/* ---- the tier sections ------------------------------------------------ */
+
+.tiers {
+  display: grid;
+  gap: var(--space-2xl);
+}
+
+.tier {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.tier__head {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.tier__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.tier__count {
+  font-family: var(--font-outlier);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+.tier__blurb {
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  max-width: 68ch;
+}
+
+.nodes {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 48rem) {
+  .nodes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 64rem) {
+  .nodes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---- one node --------------------------------------------------------- */
+
+.node {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-height: 13rem;
+  padding: var(--space-lg);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-3);
+}
+.node[data-state="done"] {
+  border-color: var(--color-accent);
+  background: color-mix(in oklab, var(--color-accent) 14%, var(--color-paper));
+}
+
+/* The badge sits at the card's head and the title at the foot of the slack
+   above the rule, so every card in a row lines its title, rule and counter up
+   with its neighbours, and the heading stands nearer its counter than the
+   badge it follows. */
+.node__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 5rem;
+}
+
+.node__top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* The title keeps the full measure of the card, so a three- or four-word
+   heading stays one or two lines instead of breaking under the chip. */
+.node__title {
+  font-size: var(--text-title);
+}
+
+/* The title is the action: underlined on approach, never on hover-only. */
+.node__link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-rule);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.node__link:hover { text-decoration-color: var(--color-accent); }
+
+.node__state[data-state="done"] { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
+.node__state[data-state="ready"] { color: var(--color-forest); font-weight: 700; }
+.node__state[data-state="locked"] { color: var(--color-ink-2); }
+
+/* The disclosure: numbers and a chevron on the closed row, prose when open. */
+.node__more {
+  border-top: 1px solid var(--color-rule);
+  padding-top: var(--space-sm);
+}
+
+/* A closed <details> keeps its content laid out (`content-visibility: hidden`
+   on `::details-content`), so the prose still occupies the page's word count
+   even though nobody can read it. Hide the closed state outright, the way the
+   element behaved before the pseudo-element landed: the facts stay in the HTML
+   and reappear the moment the reader opens the row. */
+.node__more:not([open]) > .node__facts { display: none; }
+
+.node__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-outlier);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+.node__toggle::-webkit-details-marker { display: none; }
+.node__toggle:hover { color: var(--color-ink); }
+.node__toggle > svg { transition: transform var(--dur-short) var(--ease-out); }
+.node__more[open] .node__toggle > svg { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) {
+  .node__toggle > svg { transition: none; }
+}
+
+.node__progress {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-2);
+  overflow: hidden;
+}
+.node__progress > span {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-forest);
+}
+
+.node__facts {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-top: var(--space-sm);
+}
+
+.node__fact {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-ink-2);
+  overflow-wrap: anywhere;
+}
+
+.node__term {
+  font-family: var(--font-outlier);
+  color: var(--color-muted);
+}

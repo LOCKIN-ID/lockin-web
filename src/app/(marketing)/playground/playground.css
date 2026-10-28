@@ -1,0 +1,66 @@
+/* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts */
+/* `/playground`'s own skin. Two things the shared base cannot carry, both scoped
+ * to `.pg`, the route's root, because the editor's markup is shared with the app
+ * surface (`components/playground/console.tsx` skins the same DOM with child
+ * variants there).
+ *
+ * 1. The code field. A field must show its own edge: the border is
+ *    `--color-muted` over the `--color-paper-3` ground (6.29:1), where the
+ *    `--color-rule` hairline the rest of the page uses would be 1.47:1 - an edge
+ *    only in name. The gutter shares the field's line box, so line N sits beside
+ *    row N.
+ * 2. The route head. `.btn` is `white-space: nowrap`, so at 375px the two-item
+ *    row runs a few pixels past the screen and only the page's clip hides it.
+ *    Wrapping is the fix; the control takes the second line instead.
+ */
+
+.pg .editor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+/* Both columns carry the same 12px padding and the same 1.5rem line box, so the
+   numbers and the code stay in step for the whole scroll. */
+.pg .editor__gutter,
+.pg .editor__input {
+  padding: var(--space-sm);
+  font-family: var(--font-outlier);
+  line-height: 1.5rem;
+}
+
+.pg .editor__gutter {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* The field's own top edge is 1px of border above its 12px of padding, so the
+     numbers start 13px down rather than 12: line N sits beside row N, not 1px high. */
+  padding-block-start: calc(var(--space-sm) + var(--rule-hair));
+  text-align: right;
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+.pg .editor__input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  resize: vertical;
+  border: var(--rule-hair) solid var(--color-muted);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+}
+
+.pg-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+/* The heading block may shrink to the words it holds; the Share control keeps
+   its own width. */
+.pg-head > div { min-width: 0; }

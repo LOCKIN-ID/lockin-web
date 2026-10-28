@@ -1,0 +1,49 @@
+/* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts */
+/* `/pricing`'s own skin. Two things the shared recipes cannot carry.
+ *
+ * 1. The accordions. A closed `<details>` is hidden by the UA sheet through
+ *    `content-visibility` on `::details-content`, which leaves the answer in the
+ *    layout: a closed answer still measures as on-screen text, so the three plan
+ *    lists, the comparison table and the six FAQ answers spend the page's word
+ *    budget on copy the reader cannot see. `display: none` is what the reader
+ *    already sees - a padded summary - and the answer is back the moment
+ *    `[open]` lands, without scripting. `.disclosure` is every accordion on the
+ *    route; the summary is the one part that stays a control.
+ * 2. The opening band is a head, not a hero: it has no artwork to fill a screen,
+ *    so it opens at --space-3xl and hands --space-2xl to the plans rather than
+ *    leaving the --section-gap it would have had as air (layout.md § 6). The
+ *    three prices are in the fold under it, which is what the first screen of a
+ *    pricing page is for.
+ */
+
+.disclosure:not([open]) > :not(summary) { display: none; }
+
+/* A panel's body sets its layout by class, never by an inline `display`: an
+   inline declaration would outrank the rule above and put the closed copy back
+   into the layout. */
+.disclosure__list {
+  display: grid;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+.disclosure__note {
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+.disclosure > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+
+.disclosure > summary:hover { color: var(--color-ink); }
+
+/* The FAQ panels carry the section's questions, so they keep the body step. */
+.panel.disclosure > summary { font-size: var(--text-md); }
+
+.section.pricing-open { padding-block: var(--space-3xl) var(--space-2xl); }

@@ -1,26 +1,123 @@
+/* Hallmark · shape: Studio Cuts · genre: playful · theme: LOCK.IN brand (locked, design.md) · job: buy · draw: brand
+ * hero: headline left, the runnable snippet right · nav: edge-aligned wordmark + one action · footer: mast over links · imagery: product surfaces + brand shapes, no photographs · signature: the snippet that really runs in the hero
+ * axes: paper/Archivo Black/mint · posture: workbench · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V3 · weakest: V, the vertical rhythm between bands is the one thing a later page could flatten; pages 2 to 8 rotate composition instead of repeating the hero */
+/* Hallmark · waive 80 · guard: the user's own artwork, the spark is the glyph inside the supplied mark and the sprig and blob are traced from Lock.in.pdf · the brand marks sit behind the playground panel, which is the product built, and no drawn figure stands in for a picture */
 @import "tailwindcss";
+@import "./tokens.css";
+@import "./base.css" layer(base);
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Page recipes: shared across routes with design tokens */
+@layer components {
+  /* One rhythm scale, three steps: a section, a route-opening band of the
+     same family, and a band that closes a route. */
+  .section { padding-block: var(--section-gap-s); }
+  .section--open { padding-block: var(--section-gap); }
+  .section--deep { padding-block: var(--section-gap-l); }
+  .section--tight { padding-block: var(--space-2xl); }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* A label role, so the body face at one step down, sentence case, untracked.
+     The mono face is reserved for code, terminals and keyword chips. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--color-ink-2);
   }
-}
+  .band-forest .eyebrow,
+  .band-deep .eyebrow {
+    color: color-mix(in oklab, var(--color-accent) 82%, var(--color-paper));
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .section__head { display: grid; gap: var(--space-sm); justify-items: start; }
+  .section__head--centre { justify-items: center; text-align: center; }
+
+  /* Column tracks: the container widens its gutters past 1440, never the
+     measure, so these caps are the measure and stay put. */
+  .cols-2, .cols-3, .cols-4 { display: grid; gap: var(--gap-columns); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 48rem) {
+    .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cols-3, .cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  /* Tables: pricing, roadmap, leaderboard, XP ledger and the admin lists all
+     read from this one recipe. */
+  .tbl { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .tbl th, .tbl td { padding: var(--space-sm) var(--space-md); text-align: left; vertical-align: top; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .tbl thead th {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-ink-2);
+  }
+  .tbl tbody tr:last-child th, .tbl tbody tr:last-child td { border-bottom: 0; }
+  .tbl .num, .tbl th.num, .tbl td.num { text-align: right; }
+  .tbl caption { padding-bottom: var(--space-sm); text-align: left; font-size: var(--text-sm); color: var(--color-muted); }
+  .tbl__scroll { overflow-x: auto; }
+
+  /* The sticky chrome: paper at 92% over an 8px blur, one hairline under it. */
+  .masthead {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky-nav);
+    background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  /* The first screen is the hero's: the band fills the fold below the chrome
+     (6rem at every lint width) and both tracks stretch, so the panel grows into
+     the screen instead of leaving it empty. */
+  .hero {
+    display: grid;
+    min-height: calc(100svh - 6rem);
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+  .hero__grid { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 64rem) {
+    .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: var(--space-2xl); }
+  }
+  /* `align-content: start` keeps the three rows their own height: a stretched
+     grid row would stretch the buttons inside it into pills. */
+  .hero__type { display: grid; gap: var(--space-lg); align-content: center; justify-items: start; min-width: 0; }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+  .shapes { position: absolute; inset: 0; pointer-events: none; }
+  .shapes > * { position: absolute; color: var(--color-taupe); }
+
+  /* A page head, repeated on the eight marketing routes. */
+  .pagehead { padding-block: var(--space-xs) var(--space-md); display: grid; gap: var(--space-sm); justify-items: start; }
+
+  .rail { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  @media (min-width: 52rem) {
+    .app-mobile-nav { display: none !important; }
+  }
+  @media (max-width: 51.99rem) {
+    .app-desktop-nav { display: none !important; }
+  }
+
+  .reader-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+    align-items: start;
+  }
+  .reader-aside {
+    position: static;
+  }
+  @media (min-width: 56rem) {
+    .reader-grid {
+      grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+      gap: var(--space-2xl);
+    }
+    .reader-aside {
+      position: sticky;
+      top: 5rem;
+    }
+  }
 }
