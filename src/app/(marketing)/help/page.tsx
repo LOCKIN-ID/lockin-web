@@ -19,62 +19,85 @@ export default function HelpPage() {
   return (
     <div className="section">
       <div className="container">
+        {/* Modern Knowledge Hub Header */}
         <header className="pagehead" data-reveal="up">
-          <h1>How can we <span className="highlight-mint">help</span>?</h1>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "var(--space-2xs)", marginBottom: "var(--space-xs)" }}>
+            <span className="chip" style={{ background: "var(--color-paper-2)", color: "var(--color-forest)", fontWeight: 700 }}>
+              Knowledge Base & Support
+            </span>
+            <span className="chip" style={{ background: "transparent", color: "var(--color-ink-2)" }}>
+              {HELP_ARTICLES.length} Articles
+            </span>
+          </div>
+
+          <h1>How can we <span className="highlight-mint">help you</span>?</h1>
           <p className="lead" style={{ color: "var(--color-ink-2)" }}>
-            Guides on payments, accounts, runtimes, QR codes and curriculum.
+            Guides on payments, account access, browser runtimes, QR codes, and curriculum.
           </p>
         </header>
 
-        {/* Search and articles */}
+        {/* Category Cards, Search Console and Filtered Articles */}
         <div style={{ marginTop: "var(--space-xl)" }} data-reveal="up">
           <HelpSearchList articles={HELP_ARTICLES} categories={HELP_CATEGORIES} />
         </div>
 
-        {/* Support coach */}
-        <section
-          data-reveal="plate"
-          style={{
-            marginTop: "var(--space-3xl)",
-            paddingTop: "var(--space-2xl)",
-            borderTop: "1px solid var(--color-rule)",
-          }}
-        >
-          <div style={{ marginBottom: "var(--space-lg)" }}>
-            <h2>Ask the <span className="highlight-mint">Support Coach</span></h2>
-            <p style={{ color: "var(--color-ink-2)", maxWidth: "60ch", marginTop: "var(--space-2xs)" }}>
-              Answers come from the articles above.
-            </p>
-          </div>
+        {/* Split Support Hub: AI Coach + Human Desk */}
+        <section className="help-support-split" data-reveal="plate">
+          {/* Column A: AI Support Coach */}
+          <div style={{ display: "grid", gap: "var(--space-md)" }}>
+            <div>
+              <h2>Ask the <span className="highlight-mint">Support Coach</span></h2>
+              <p style={{ color: "var(--color-ink-2)", maxWidth: "60ch", marginTop: "var(--space-2xs)", fontSize: "var(--text-sm)" }}>
+                Answers are drawn directly from our verified documentation and learning specifications.
+              </p>
+            </div>
 
-          <div style={{ maxWidth: "75ch" }}>
             <Helper provider={provider} whatsappUrl={whatsappUrl} compact />
           </div>
-        </section>
 
-        {/* Escalation CTA */}
-        <section
-          className="well"
-          data-reveal="up"
-          style={{
-            marginTop: "var(--space-2xl)",
-            padding: "var(--space-xl)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "var(--space-md)",
-          }}
-        >
-          <div>
-            <h3>Still stuck? Open a human ticket.</h3>
-            <p style={{ color: "var(--color-ink-2)", fontSize: "var(--text-sm)" }}>
-              A person usually answers within a few hours.
-            </p>
+          {/* Column B: Human Escalation Desk */}
+          <div className="help-escalation-card">
+            <div>
+              <h3 style={{ fontSize: "var(--text-xl)", margin: 0 }}>
+                Need direct human assistance?
+              </h3>
+              <p style={{ color: "var(--color-ink-2)", fontSize: "var(--text-sm)", margin: "var(--space-xs) 0 0", lineHeight: 1.5 }}>
+                When you need personalized help with order receipts, payment verification, or custom inquiries, our team handles tickets directly.
+              </p>
+            </div>
+
+            <div className="help-escalation-meta">
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <strong>Average reply</strong>
+                <span>Under 2 hours</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <strong>Active days</strong>
+                <span>Monday to Saturday</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <strong>Resolution rate</strong>
+                <span>100% of verified orders</span>
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gap: "var(--space-xs)" }}>
+              <Link href="/contact" className="btn" style={{ width: "100%" }}>
+                Open Support Ticket
+              </Link>
+              {whatsappUrl && (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn--quiet"
+                  style={{ width: "100%" }}
+                >
+                  Chat via WhatsApp
+                </a>
+              )}
+            </div>
           </div>
-          <Link href="/contact" className="btn">
-            Open Support Ticket
-          </Link>
         </section>
       </div>
     </div>

@@ -1,83 +1,335 @@
 /* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts */
-/* `/books` and the book detail route. Two layouts the shared base cannot carry.
+/* `/books` and `/books/[slug]`: modern high-density catalogue and detail system.
  *
- * 1. The catalogue row. A book is one wide row: a plate carrying the tier and the
- *    page count, then the title, the promise and the buy. Three cards side by side
- *    put three promises and three chapter lists on one screen (gate 58); one row per
- *    book, 27rem tall, puts one and a half there instead, and the chapter titles
- *    stay on the detail page where they are the thing being sold.
- * 2. The disclosures. The chapter-1 sample and each chapter's one-line goal sit in
- *    native `<details>`: no JavaScript, still in the HTML, and off the screen until
- *    asked for. The six chapter names stay visible, because they are the contents.
- * 3. The buy row wraps instead of running 11px past a 375px screen under the page's
- *    clip (gate 34); `.btn` is `white-space: nowrap`, so the row wraps around it.
- *
- * Colours, faces and space are all tokens from `tokens.css`; no literal is declared.
+ * 1. The catalogue cards. Three distinct tiers with custom cover mockups, curriculum
+ *    pills, progress stats, and direct action panels.
+ * 2. Visual hierarchy: High-contrast display headlines, OKLCH token surfaces,
+ *    accessible `:focus-visible` rings, and responsive stack under 64rem.
+ * 3. Floor compliance: No middle-dot metadata strings, no em dashes, no transition: all.
  */
 
-/* The catalogue closes the route: 144px between the last row and the footer, so
-   the last promise and the footer's two bands are never read as one screen. */
-.catalogue { display: grid; gap: var(--space-3xl); margin-top: var(--space-xl); padding-bottom: var(--space-4xl); }
+/* ---- hero split deck -------------------------------------------------- */
+.books-hero {
+  display: grid;
+  gap: var(--space-2xl);
+  align-items: center;
+  width: 100%;
+  margin-bottom: var(--space-xl);
+}
+
+@media (min-width: 64rem) {
+  .books-hero {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
+  }
+}
+
+.books-hero__lead {
+  font-size: var(--text-lead);
+  color: var(--color-ink-2);
+  line-height: 1.5;
+  margin-top: var(--space-xs);
+  max-width: 54ch;
+}
+
+.books-hero__rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+}
+
+.books-hero__deck {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.books-hero__deck-title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 800;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.books-hero__features {
+  display: grid;
+  gap: var(--space-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.books-hero__feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+.books-hero__feature-pill {
+  flex-shrink: 0;
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  color: var(--color-forest);
+}
+
+/* ---- catalogue cards -------------------------------------------------- */
+.catalogue {
+  display: grid;
+  gap: var(--space-2xl);
+  margin-top: var(--space-xl);
+  padding-bottom: var(--space-3xl);
+}
 
 .book-row {
   display: grid;
-  gap: var(--space-lg);
-  padding: var(--space-lg);
-}
-
-.book-row__plate {
-  display: grid;
-  gap: var(--space-2xs);
-  place-content: center;
-  justify-items: center;
-  padding: var(--space-lg);
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-card);
-  background: var(--color-paper-2);
-  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
 }
-.book-row__tier {
-  font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  font-size: var(--text-2xl);
-  line-height: 1.04;
-  letter-spacing: var(--tracking-display);
-  overflow-wrap: break-word;
-  min-width: 0;
-}
-.book-row__pages { font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-ink-2); }
 
-.book-row__body { display: grid; gap: var(--space-sm); align-content: center; min-width: 0; }
-.book-row__title { font-size: var(--text-2xl); }
-.book-row__title a { text-decoration: none; }
-.book-row__title a:hover { text-decoration: underline; }
-.book-row__promise { color: var(--color-ink-2); }
-.book-row__count { font-size: var(--text-sm); color: var(--color-ink-2); }
-
-.book-row__buy {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-sm);
+.book-row:hover {
+  border-color: var(--color-muted);
+  box-shadow: var(--shadow-raised);
 }
-.book-row__price { margin-right: auto; font-family: var(--font-outlier); font-size: var(--text-xl); font-weight: 700; }
 
 @media (min-width: 64rem) {
   .book-row {
-    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) minmax(0, 12rem);
+    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) minmax(0, 13.5rem);
     align-items: center;
-    gap: var(--space-xl);
-    min-height: 27rem;
-    padding: var(--space-xl);
+    gap: var(--space-2xl);
   }
-  .book-row__plate { align-self: stretch; }
-  .book-row__buy { flex-direction: column; align-items: stretch; justify-content: center; gap: var(--space-md); }
-  .book-row__price { margin-right: 0; text-align: center; }
+}
+
+/* book cover plate */
+.book-row__plate {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  margin: 0 auto;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: var(--rule-hair) solid var(--color-rule);
+  background: var(--color-forest-deep);
+  box-shadow: var(--shadow-raised);
+  aspect-ratio: 393 / 557;
+}
+
+.book-row__cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--dur-short) var(--ease-out);
+}
+
+
+.book-row__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, color-mix(in oklab, var(--color-forest-deep) 94%, transparent) 0%, color-mix(in oklab, var(--color-forest-deep) 20%, transparent) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justifyContent: space-between;
+  padding: var(--space-md);
+  pointer-events: none;
+}
+
+.book-row__badge-row {
+  display: flex;
+  justifyContent: space-between;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.book-row__plate-badge {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+}
+
+.book-row__plate-pages {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-paper-2);
+  text-shadow: 0 1px 2px var(--color-forest-deep);
+}
+
+.book-row__level-scrim {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 800;
+  color: var(--color-paper);
+  letter-spacing: var(--tracking-display);
+}
+
+/* book body */
+.book-row__body {
+  display: grid;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.book-row__tier-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.book-row__title {
+  font-size: var(--text-xl);
+  line-height: 1.15;
+}
+
+.book-row__title a {
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.book-row__title a:hover {
+  color: var(--color-forest);
+  text-decoration: underline;
+}
+
+.book-row__promise {
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.book-row__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-xs);
+  margin-top: var(--space-xs);
+}
+
+.book-row__topic-tag {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  color: var(--color-ink-2);
+}
+
+.book-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  margin-top: var(--space-2xs);
+}
+
+/* book buy/action */
+.book-row__buy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  align-items: stretch;
+  justify-content: center;
+}
+
+.book-row__price-block {
+  text-align: center;
+}
+
+.book-row__price-type {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  margin-bottom: 2px;
+}
+
+.book-row__price {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--color-ink);
+}
+
+/* ---- curriculum value proposition deck -------------------------------- */
+.books-ecosystem {
+  margin-top: var(--space-4xl);
+  padding-top: var(--space-2xl);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+.books-ecosystem__head {
+  margin-bottom: var(--space-xl);
+  text-align: center;
+}
+
+.books-ecosystem__grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.books-ecosystem__card {
+  padding: var(--space-xl);
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.books-ecosystem__card-badge {
+  display: inline-block;
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  margin-bottom: var(--space-sm);
+}
+
+.books-ecosystem__card h4 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-xs);
+}
+
+.books-ecosystem__card p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  margin: 0;
+  line-height: 1.5;
 }
 
 /* ---- the packed catalogue note ---------------------------------------- */
 .catalogue-note { margin-top: var(--space-lg); padding: var(--space-md) var(--space-lg); }
-.catalogue-note p { color: var(--color-ink-2); }
-
 /* ---- disclosures ------------------------------------------------------ */
 /* 144px between the three bands: the layout steps want 120px or more. */
 .book-sample { margin-top: var(--space-4xl); }

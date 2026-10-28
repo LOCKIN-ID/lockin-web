@@ -7,6 +7,11 @@ import { books, getBook } from "@/content/books";
 import { priceLabel } from "@/lib/format";
 import { BlockRenderer } from "@/components/reader/block-renderer";
 
+const COVER_MAP: Record<string, string> = {
+  beginner: "/ebooks/cover-beginner.png",
+  intermediate: "/ebooks/cover-intermediate.png",
+  expert: "/ebooks/cover-expert.png",
+};
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -71,7 +76,7 @@ export default async function BookDetailPage({ params }: Props) {
 
             <div style={{ maxWidth: "260px", justifySelf: "center", width: "100%", borderRadius: "var(--radius-card)", overflow: "hidden", border: "1px solid var(--color-rule)", boxShadow: "var(--shadow-raised)" }}>
               <img
-                src="/ebooks/cover-lockin.png"
+                src={COVER_MAP[book.slug] ?? "/ebooks/cover-lockin.png"}
                 alt={`${book.title} cover`}
                 style={{ width: "100%", height: "auto", display: "block" }}
               />

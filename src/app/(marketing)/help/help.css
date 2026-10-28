@@ -1,48 +1,274 @@
-/* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts
+/* Hallmark · genre: playful · theme: LOCK.IN brand (tokens.css) · shape: Studio Cuts */
+/* `/help`: Modern knowledge base, command search console, and support hub.
  *
- * The /help index. One row is one link: a category chip and the title, no
- * summary. The summary is the article page's job, and nine of them on one
- * screen is what put this route over the 95-word screen budget.
- *
- * The link carries the padding, so the whole row is the hit target and the
- * target stays 44 to 52px tall at every width. The arrow is drawn in CSS: it
- * marks the row as one that opens without gluing a glyph to the link's label.
+ * 1. Category quick-navigation grid: Visual cards for the 5 content domains.
+ * 2. Search console: Fast filtering with quick-tag suggestions.
+ * 3. Structured article cards: Clear titles, categories, and summary previews.
+ * 4. Split support desk: Side-by-side AI coach and human ticket escalation.
  */
 
-.help-index { display: grid; gap: var(--space-2xl); }
+/* ---- hero & search console -------------------------------------------- */
+.help-hero {
+  display: grid;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
 
-.help-index__row { background: var(--color-paper-3); }
+.help-search-panel {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
 
-.help-index__link {
+.help-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.help-search-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-xl) 0 var(--space-lg);
+  font-size: var(--text-md);
+  font-family: var(--font-body);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  transition: border-color var(--dur-short) var(--ease-out);
+}
+
+.help-search-input:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 2px var(--color-focus);
+}
+
+.help-search-clear {
+  position: absolute;
+  right: var(--space-sm);
+  background: transparent;
+  border: none;
+  color: var(--color-muted);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+}
+
+.help-search-clear:hover {
+  color: var(--color-ink);
+}
+
+.help-quick-tags {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2xs) var(--space-md);
-  padding: var(--space-sm) var(--space-lg);
+  gap: var(--space-xs);
+}
+
+.help-quick-tag {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  color: var(--color-ink-2);
+  cursor: pointer;
+  transition: background var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+}
+
+.help-quick-tag:hover {
+  background: var(--color-paper);
+  border-color: var(--color-forest);
+  color: var(--color-ink);
+}
+
+/* ---- category quick nav grid ------------------------------------------ */
+.help-categories-grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  margin-bottom: var(--space-xl);
+}
+
+.help-cat-card {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-lg);
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);
+}
+
+.help-cat-card:hover {
+  border-color: var(--color-muted);
+  transform: translateY(-1px);
+}
+
+.help-cat-card[data-active="true"] {
+  border-color: var(--color-accent);
+  background: color-mix(in oklab, var(--color-accent) 6%, var(--color-paper-3));
+  box-shadow: var(--shadow-raised);
+}
+
+.help-cat-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.help-cat-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 800;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.help-cat-card__count {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-2);
+  color: var(--color-muted);
+}
+
+.help-cat-card__blurb {
+  font-size: var(--text-xs);
+  color: var(--color-ink-2);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* ---- article list index ----------------------------------------------- */
+.help-index {
+  display: grid;
+  gap: var(--space-md);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.help-article-card {
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+}
+
+.help-article-card:hover {
+  border-color: var(--color-muted);
+  box-shadow: var(--shadow-raised);
+}
+
+.help-article-card__link {
+  display: grid;
+  gap: var(--space-xs);
   color: inherit;
   text-decoration: none;
 }
 
-.help-index__link::after {
-  content: "\2192";
-  margin-inline-start: auto;
-  color: var(--color-ink-2);
+.help-article-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
-.help-index__title {
-  flex: 1 1 auto;
+.help-article-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-md);
+}
+
+.help-article-card__title {
   font-family: var(--font-display);
-  font-weight: var(--display-weight);
   font-size: var(--text-lg);
+  font-weight: 800;
   letter-spacing: var(--tracking-display);
-  line-height: 1.2;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--color-ink);
 }
 
-.help-index__link:hover .help-index__title {
+.help-article-card:hover .help-article-card__title {
+  color: var(--color-forest);
   text-decoration: underline;
   text-underline-offset: 0.16em;
 }
 
+.help-article-card__arrow {
+  flex-shrink: 0;
+  font-size: var(--text-lg);
+  color: var(--color-forest);
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+
+.help-article-card:hover .help-article-card__arrow {
+  transform: translateX(3px);
+}
+
+.help-article-card__summary {
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 75ch;
+}
+
+/* ---- split support desk ----------------------------------------------- */
+.help-support-split {
+  display: grid;
+  gap: var(--space-2xl);
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-2xl);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+@media (min-width: 64rem) {
+  .help-support-split {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.help-escalation-card {
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-xl);
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.help-escalation-meta {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-2);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
 @media (max-width: 40rem) {
-  .help-index__link { padding-inline: var(--space-md); }
+  .help-article-card { padding: var(--space-md) var(--space-lg); }
 }
