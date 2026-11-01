@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # The Prisma CLI and the app both read `.env` (dotenv/config, not `.env.local`);
+      # the template's defaults are the offline demo, so nothing secret is needed here.
+      - run: cp .env.example .env
+
+      - run: npm run db:deploy
+
+      - run: npx tsc --noEmit
+
+      - run: npm run test
+
+      - run: npm run build
