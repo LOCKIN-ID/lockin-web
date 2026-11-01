@@ -2,6 +2,11 @@
   "name": "lockin",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  },
+  "packageManager": "npm@11.19.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,6 +14,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
