@@ -33,5 +33,7 @@ if (!SECRET) {
 }
 
 console.log(`cron: every 2 minutes against ${APP_URL}/api/cron/retention (Ctrl-C to stop)`);
-await tick();
+// No top-level await: `tsx` compiles this to CJS (package.json has no "type": "module"),
+// and CJS cannot await at module scope.
+void tick();
 setInterval(() => void tick(), EVERY_MS);
