@@ -1,6 +1,8 @@
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 
+import { chromePath } from "./chrome-path.mjs";
+
 const SLOPLINT = join(
   process.env.USERPROFILE ?? "C:\\Users\\lenovo",
   ".omp",
@@ -17,9 +19,7 @@ try {
     stdio: "inherit",
     env: {
       ...process.env,
-      CHROME_PATH:
-        process.env.CHROME_PATH ??
-        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      CHROME_PATH: chromePath(),
     },
   });
   console.log("✓ Design lint finished cleanly.");
