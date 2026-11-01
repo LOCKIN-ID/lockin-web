@@ -68,6 +68,42 @@ Hallmark render: 0 FAIL across 12 public routes
 
 ---
 
+## Database
+
+SQLite through a Prisma 7 driver adapter. **There is no Postgres here** — `prisma/schema.prisma`
+declares `provider = "sqlite"` and every migration is SQLite dialect, so Postgres is not a
+supported path without rewriting the migrations.
+
+The driver is chosen at runtime from `DB_DRIVER` (`src/lib/prisma.ts`):
+
+| `DB_DRIVER` | Database | Env it reads | Used when |
+| --- | --- | --- | --- |
+| `sqlite` (default) | Local file via `better-sqlite3` | `DATABASE_URL` | Development and the demo |
+| `libsql` (alias `turso`) | Turso / libSQL | `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` | Deploying to Vercel |
+| `d1` | Cloudflare D1 | the `globalThis.DB` binding | Deploying to Cloudflare Workers |
+
+Any other value falls back to `sqlite`, so a typo opens a local file instead of failing.
+
+Migrating each way is **not** the same command:
+
+- **`sqlite`** — `npm run db:deploy`. This is the path `npm run setup` and CI use.
+- **`libsql`** — `prisma migrate deploy` does not support a `libsql://` URL. Apply migrations to a
+  local SQLite file first, then push the SQL to Turso. Prisma's own SQLite page says to "use local
+  SQLite file + Turso CLI for migrations", and Turso's Prisma guide says Prisma Migrate is
+  "currently not supported when working with Turso":
+  ```bash
+  npm run db:deploy
+  turso db shell <database-name> < prisma/migrations/20261025115050_init/migration.sql
+  ```
+- **`d1`** — migrations go through Wrangler rather than the Prisma CLI; see the
+  `@prisma/adapter-d1` documentation.
+
+Two names, two jobs: `prisma.config.ts` and `prisma/seed.ts` read only `DATABASE_URL`, while the
+`libsql` runtime reads `TURSO_DATABASE_URL`. When you move to Turso, leave `DATABASE_URL` pointing
+at the local file — that is where migrations are applied before being pushed.
+
+---
+
 ## Quick Start
 
 Requires Node 22.12 or newer (`.nvmrc` pins 24) and Git. No API keys, no Docker, no database
