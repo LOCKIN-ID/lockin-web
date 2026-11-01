@@ -70,24 +70,27 @@ Hallmark render: 0 FAIL across 12 public routes
 
 ## Quick Start
 
-### 1. Setup Environment
+Requires Node 22.12 or newer (`.nvmrc` pins 24) and Git. No API keys, no Docker, no database
+server: the demo runs offline against a local SQLite file.
+
 ```bash
-cp .env.example .env
-npm install
-npm run wasm:sync
+git clone https://github.com/LOCKIN-ID/lockin-web.git
+cd lockin-web
+npm run setup
+npm run dev
 ```
 
-### 2. Database Migration & Seed
-```bash
-npm run db:migrate
-npm run db:seed
-```
+`npm run setup` copies `.env` from the template, installs dependencies, stages the shell runtime,
+applies migrations, seeds the demo data on a fresh database, and runs the test suite. It is safe to
+repeat: an existing `.env` and an existing database are left alone.
 
 Seeded credentials:
 - **Admin:** `admin@lockin.test` / `lockin-admin-2026`
 - **Learner:** `student@lockin.test` / `lockin-student-2026`
 
-### 3. Generate QR Codes & E-Book PDFs
+If the one-liner fails, `CONTRIBUTING.md` has the same steps written out by hand.
+
+### Generate QR Codes & E-Book PDFs
 ```bash
 npm run qr:build
 # Start the dev server in one terminal:

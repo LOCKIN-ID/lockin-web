@@ -11,6 +11,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "setup": "node scripts/setup.mjs",
     "lint": "eslint",
     "test": "vitest run",
     "db:migrate": "prisma migrate dev",
