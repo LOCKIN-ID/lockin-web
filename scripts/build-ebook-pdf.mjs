@@ -2,20 +2,19 @@ import { mkdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import puppeteer from "puppeteer-core";
 
-const EDGE_PATH =
-  process.env.CHROME_PATH ??
-  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+import { chromePath } from "./chrome-path.mjs";
 
 const BOOKS = ["beginner", "intermediate", "expert"];
+const CHROME = chromePath();
 const BASE_URL = process.env.APP_URL ?? "http://localhost:3000";
 
 async function buildAllPdfs() {
   const ebooksDir = join(process.cwd(), "public", "ebooks");
   mkdirSync(ebooksDir, { recursive: true });
 
-  console.log(`Connecting to browser at: ${EDGE_PATH}`);
+  console.log(`Connecting to browser at: ${CHROME}`);
   const browser = await puppeteer.launch({
-    executablePath: EDGE_PATH,
+    executablePath: CHROME,
     headless: "new",
     args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"],
   });

@@ -1,6 +1,8 @@
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
+import { chromePath } from "./chrome-path.mjs";
+
 /**
  * The render tier of the Hallmark lint.
  *
@@ -45,7 +47,7 @@ const ROUTES = [
 
 const env = {
   ...process.env,
-  CHROME_PATH: process.env.CHROME_PATH ?? "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  CHROME_PATH: chromePath(),
 };
 
 let failures = 0;

@@ -2,11 +2,10 @@ import puppeteer from "puppeteer-core";
 import { mkdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
-const EDGE_PATH =
-  process.env.CHROME_PATH ??
-  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+import { chromePath } from "./chrome-path.mjs";
 
 const BASE_URL = (process.env.APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
+const CHROME = chromePath();
 const OUT_DIR = join(process.cwd(), ".hallmark", "shots");
 
 if (!existsSync(OUT_DIR)) {
@@ -61,7 +60,7 @@ async function capture(page, name, viewports = [1440, 375]) {
 async function main() {
   console.log(`Starting authenticated shots run against ${BASE_URL}...`);
   const browser = await puppeteer.launch({
-    executablePath: EDGE_PATH,
+    executablePath: CHROME,
     headless: "new",
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });

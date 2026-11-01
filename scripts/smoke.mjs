@@ -1,10 +1,9 @@
 import puppeteer from "puppeteer-core";
 
-const EDGE_PATH =
-  process.env.CHROME_PATH ??
-  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+import { chromePath } from "./chrome-path.mjs";
 
 const BASE_URL = process.env.APP_URL ?? "http://localhost:3000";
+const CHROME = chromePath();
 
 /**
  * The smoke walk: one real interaction per public surface, asserted on what a
@@ -16,7 +15,7 @@ const BASE_URL = process.env.APP_URL ?? "http://localhost:3000";
 async function runSmokeTests() {
   console.log(`Starting smoke tests against ${BASE_URL} using Edge...`);
   const browser = await puppeteer.launch({
-    executablePath: EDGE_PATH,
+    executablePath: CHROME,
     headless: "new",
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });

@@ -48,7 +48,7 @@ prisma/*.db-wal
 *.sqlite
 *.sqlite3
 *.sqlite-journal
-storage/
+/storage/
 
 # generated artefacts
 public/ebooks/*.pdf
