@@ -46,12 +46,36 @@ leaderboard and rewards screens are not empty.
 
 Prefix every branch: `feat/`, `fix/`, `chore/`, or `docs/`.
 
-**Never push to `main` directly.** Branch protection cannot be enabled on this repository: the
-`LOCKIN-ID` organisation is on the GitHub free plan, and GitHub answers
-`403 Upgrade to GitHub Pro or make this repository public`. This rule is therefore enforced by
-agreement, not by GitHub. Keep `main` green by merging only through a pull request with at least
-one approval from another collaborator, squash merge, and a description that says what you
-verified.
+**Never push to `main` directly.** Merge every change through a pull request with at least one
+approval from another collaborator, squash merged, with a description that says what you verified.
+
+What GitHub actually enforces here, regardless of anyone's cooperation:
+
+- **Squash is the only merge button.** Merge commits and rebase merges are disabled at the
+  repository level, so the other two buttons do not exist.
+- **The head branch is deleted** automatically once a pull request merges.
+
+What is only a signal, not a gate:
+
+- A CI job named `origin` turns the run red when a commit on `main` belongs to no pull request. It
+  reports a direct push; it does not prevent one.
+- `verify` still runs on a direct push, so the suite's result is known either way.
+
+**Branch protection itself is unavailable.** The `LOCKIN-ID` organisation is on the GitHub free
+plan, which answers `403 Upgrade to GitHub Pro or make this repository public` for both
+`/rulesets` and `/branches/main/protection` — the endpoints cannot even be read, so the Rulesets
+settings page fails to save. Nothing below this line is enforced by GitHub.
+
+If that ever needs to change, there are exactly two routes:
+
+- **GitHub Student Developer Pack** gives GitHub Pro free while you are a student. Pro includes
+  protected branches for private repositories owned by a **personal account**, not by an
+  organisation — so this only applies if the repository moves out of `LOCKIN-ID`.
+- **GitHub Team** for the organisation: $4 per user per month, $16/month for the current four
+  members.
+
+Making the repository public would also unblock protection, and is not an option: `src/content/books/*.ts`
+is 3,397 lines of the paid course material, so a public repository gives the product away.
 
 ## What CI runs
 

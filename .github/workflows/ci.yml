@@ -33,3 +33,26 @@ jobs:
       - run: npm run test
 
       - run: npm run build
+
+  origin:
+    # Only a push can be unguarded; a pull_request run proves the PR exists by definition.
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: The commit on main must belong to a pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          count=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq 'length')
+          if [ "$count" -eq 0 ]; then
+            echo "::error::$SHA was pushed straight to main without a pull request."
+            echo "Open the change as a PR instead; see CONTRIBUTING.md."
+            exit 1
+          fi
+          echo "Commit $SHA belongs to a pull request."
