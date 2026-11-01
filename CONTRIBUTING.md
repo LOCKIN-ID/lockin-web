@@ -93,6 +93,11 @@ npm run build
 `npm run db:deploy` is `prisma migrate deploy`: it applies committed migrations without writing
 new ones. Use `npm run db:migrate` locally instead.
 
+A second job, `origin`, runs **only on a push to `main`**. It asks the API whether the pushed
+commit belongs to a pull request and fails when it does not, which is how a direct push becomes
+visible (see "Branches and pull requests"). It is skipped on pull requests: a PR's head commit has
+no PR association until it merges, so running it there would fail every PR.
+
 ## Checks CI does not run
 
 These need a real browser or a running server, so run them locally before requesting review when
