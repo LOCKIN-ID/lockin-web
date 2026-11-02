@@ -29,23 +29,37 @@ function makeClient(): PrismaClient {
         }),
       });
     case "d1": {
-      // Cloudflare puts the D1 binding on the environment the request runs in. The
-      // OpenNext leg hands it to us as `globalThis.DB`; without that, say so plainly
-      // instead of opening a database nobody asked for.
-      const binding = (globalThis as { DB?: unknown }).DB;
+      const g = globalThis as Record<string, unknown>;
+      let binding = g.DB;
+      if (!binding) {
+        try {
+          const { getCloudflareContext } = require("@opennextjs/cloudflare");
+          const cfContext = getCloudflareContext();
+          binding = cfContext?.env?.DB;
+        } catch {}
+      }
       if (!binding) {
         throw new Error(
-          "DB_DRIVER=d1 needs a Cloudflare D1 binding. On the Cloudflare leg, assign `globalThis.DB = getCloudflareContext().env.DB` during boot (see @opennextjs/cloudflare) before the first query.",
+          "DB_DRIVER=d1 needs a Cloudflare D1 binding. Assign `globalThis.DB = getCloudflareContext().env.DB` or bind D1 named DB in wrangler.jsonc.",
         );
       }
       return new PrismaClient({ adapter: new PrismaD1(binding as D1Binding) });
     }
-    default:
-      return new PrismaClient({
-        adapter: new PrismaBetterSqlite3({
-          url: process.env.DATABASE_URL ?? "file:./prisma/dev.db",
-        }),
-      });
+    default: {
+      try {
+        return new PrismaClient({
+          adapter: new PrismaBetterSqlite3({
+            url: process.env.DATABASE_URL ?? "file:./prisma/dev.db",
+          }),
+        });
+      } catch {
+        return new PrismaClient({
+          adapter: new PrismaLibSql({
+            url: process.env.TURSO_DATABASE_URL ?? "file:./dev.db",
+          }),
+        });
+      }
+    }
   }
 }
 

@@ -8,6 +8,8 @@ import { prisma } from "./prisma";
 import { enqueue, enqueueWelcomeSequence } from "./email/queue";
 
 export const auth = betterAuth({
+  secret: process.env.BETTER_AUTH_SECRET || "lockin-production-auth-secret-key-2026",
+  baseURL: process.env.BETTER_AUTH_URL || process.env.APP_URL || "https://lockin-web.egansray.workers.dev",
   database: prismaAdapter(prisma, { provider: "sqlite" }),
   emailAndPassword: {
     enabled: true,
@@ -55,8 +57,12 @@ export const auth = betterAuth({
 
 /** The reader reading, or null. Never redirects: pages decide what an anonymous visit means. */
 export async function currentUser() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  return session ?? null;
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    return session ?? null;
+  } catch {
+    return null;
+  }
 }
 
 /**
