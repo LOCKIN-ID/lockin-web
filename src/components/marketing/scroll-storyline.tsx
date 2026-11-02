@@ -468,7 +468,8 @@ export function ScrollStoryline({
                   className="btn btn--outline-paper"
                   style={{ width: "100%", justifyContent: "center" }}
                 >
-                  Mulai Gratis →
+                  <span>Mulai Gratis</span>
+                  <span className="btn-arrow" aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
@@ -500,10 +501,11 @@ export function ScrollStoryline({
               <div className="snowhouse-col__bottom">
                 <Link
                   href="/pricing"
-                  className="btn"
-                  style={{ width: "100%", justifyContent: "center", background: "var(--color-accent)", color: "var(--color-accent-ink)", border: "2px solid var(--color-ink)", fontWeight: 900, boxShadow: "2px 2px 0px var(--color-ink)" }}
+                  className="btn btn--bundle"
+                  style={{ width: "100%", justifyContent: "center" }}
                 >
-                  Beli Paket Bundle
+                  <span>Beli Paket Bundle</span>
+                  <span className="btn-arrow" aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
@@ -532,18 +534,20 @@ export function ScrollStoryline({
               <div className="snowhouse-col__bottom">
                 <Link
                   href="/pricing"
-                  className="btn"
-                  style={{ width: "100%", justifyContent: "center", background: "var(--color-forest-deep)", color: "var(--color-paper)", border: "2px solid var(--color-ink)" }}
+                  className="btn btn--pro"
+                  style={{ width: "100%", justifyContent: "center" }}
                 >
-                  Langganan Pro →
+                  <span>Langganan Pro</span>
+                  <span className="btn-arrow" aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
           </div>
 
           <div style={{ marginTop: "var(--space-xl)", textAlign: "center" }}>
-            <Link href="/books" className="btn btn--outline-paper">
-              Lihat Seluruh Katalog E-Book ({books.length} Buku) →
+            <Link href="/books" className="btn btn--catalogue-cta">
+              <span>Lihat Seluruh Katalog E-Book ({books.length} Buku)</span>
+              <span className="btn-arrow" aria-hidden="true">→</span>
             </Link>
           </div>
         </div>

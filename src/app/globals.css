@@ -391,6 +391,164 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  .hero-btn-primary {
+    min-height: 52px;
+    padding: 0 var(--space-xl);
+    font-size: 1.0625rem;
+    font-weight: 800;
+    font-family: var(--font-display);
+    background: var(--color-accent);
+    color: var(--color-ink);
+    border: 2px solid var(--color-ink);
+    border-radius: 6px;
+    box-shadow: 4px 4px 0px var(--color-ink);
+    transition:
+      background-color 450ms var(--ease-out),
+      color 450ms var(--ease-out),
+      border-color 450ms var(--ease-out),
+      transform 450ms var(--ease-out),
+      box-shadow 450ms var(--ease-out);
+  }
+
+  .hero-btn-primary:hover {
+    background: color-mix(in oklab, var(--color-accent) 88%, white);
+    color: var(--color-ink);
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0px var(--color-ink);
+  }
+
+  .hero-btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--color-ink);
+    transition-duration: 90ms;
+  }
+
+  .hero-btn-secondary {
+    min-height: 52px;
+    padding: 0 var(--space-xl);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    background: var(--color-paper-3);
+    color: var(--color-ink);
+    border: 2px solid var(--color-ink);
+    border-radius: 6px;
+    box-shadow: 4px 4px 0px color-mix(in oklab, var(--color-ink) 25%, transparent);
+    transition:
+      background-color 450ms var(--ease-out),
+      color 450ms var(--ease-out),
+      border-color 450ms var(--ease-out),
+      transform 450ms var(--ease-out),
+      box-shadow 450ms var(--ease-out);
+  }
+
+  .hero-btn-secondary:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-color: var(--color-ink);
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0px var(--color-ink);
+  }
+
+  .hero-btn-secondary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--color-ink);
+    transition-duration: 90ms;
+  }
+
+  .btn--bundle {
+    width: 100%;
+    min-height: 48px;
+    border: 2px solid var(--color-ink);
+    border-radius: 6px;
+    background: var(--color-accent);
+    color: var(--color-ink);
+    font-weight: 900;
+    font-family: var(--font-display);
+    box-shadow: 3px 3px 0px var(--color-ink);
+    transition:
+      background-color 450ms var(--ease-out),
+      color 450ms var(--ease-out),
+      transform 450ms var(--ease-out),
+      box-shadow 450ms var(--ease-out);
+  }
+
+  .btn--bundle:hover {
+    background: color-mix(in oklab, var(--color-accent) 88%, white);
+    color: var(--color-ink);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px var(--color-ink);
+  }
+
+  .btn--bundle:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--color-ink);
+    transition-duration: 90ms;
+  }
+
+  .btn--pro {
+    width: 100%;
+    min-height: 48px;
+    border: 2px solid var(--color-ink);
+    border-radius: 6px;
+    background: var(--color-forest-deep);
+    color: var(--color-paper);
+    font-weight: 800;
+    font-family: var(--font-display);
+    box-shadow: 3px 3px 0px var(--color-ink);
+    transition:
+      background-color 450ms var(--ease-out),
+      color 450ms var(--ease-out),
+      border-color 450ms var(--ease-out),
+      transform 450ms var(--ease-out),
+      box-shadow 450ms var(--ease-out);
+  }
+
+  .btn--pro:hover {
+    background: var(--color-ink);
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px var(--color-accent);
+  }
+
+  .btn--pro:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--color-ink);
+    transition-duration: 90ms;
+  }
+
+  .btn--catalogue-cta {
+    min-height: 50px;
+    padding: 0 var(--space-xl);
+    border: 2px solid var(--color-ink);
+    border-radius: 6px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-weight: 700;
+    font-family: var(--font-display);
+    box-shadow: 3px 3px 0px var(--color-ink);
+    transition:
+      background-color 450ms var(--ease-out),
+      color 450ms var(--ease-out),
+      border-color 450ms var(--ease-out),
+      transform 450ms var(--ease-out),
+      box-shadow 450ms var(--ease-out);
+  }
+
+  .btn--catalogue-cta:hover {
+    background: var(--color-accent);
+    color: var(--color-ink);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--color-ink);
+  }
+
+  .btn--catalogue-cta:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--color-ink);
+    transition-duration: 90ms;
+  }
   /* A page head, repeated on the eight marketing routes. */
   .pagehead { padding-block: var(--space-xs) var(--space-md); display: grid; gap: var(--space-sm); justify-items: start; }
 
@@ -722,18 +880,28 @@
     font-family: var(--font-code);
     font-size: var(--text-xs);
     cursor: pointer;
-    transition: background var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+    transition:
+      background-color 450ms var(--ease-out),
+      border-color 450ms var(--ease-out),
+      color 450ms var(--ease-out),
+      transform 450ms var(--ease-out),
+      box-shadow 450ms var(--ease-out);
   }
 
   .crt-page-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(216, 226, 215, 0.22);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 
   .crt-page-btn.is-active {
-    background: #D8E2D7;
-    border-color: #D8E2D7;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
     color: var(--color-ink);
-    font-weight: 900;
+    font-weight: 800;
+    box-shadow: 0 0 12px rgba(131, 226, 180, 0.35);
   }
 
   .crt-caption {

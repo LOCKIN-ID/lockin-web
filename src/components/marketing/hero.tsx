@@ -221,12 +221,13 @@ export function Hero() {
             </p>
 
             <div className="hero-monumental-actions">
-              <Link href="/books" className="btn">
+              <Link href="/books" className="btn hero-btn-primary">
                 <span>Jelajahi E-Book</span>
-                <span aria-hidden="true">→</span>
+                <span className="btn-arrow" aria-hidden="true">→</span>
               </Link>
-              <Link href="/roadmap" className="btn btn--quiet">
-                Lihat Roadmap
+              <Link href="/roadmap" className="btn btn--quiet hero-btn-secondary">
+                <span>Lihat Roadmap</span>
+                <span className="btn-arrow" aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
