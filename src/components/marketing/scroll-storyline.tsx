@@ -465,7 +465,7 @@ export function ScrollStoryline({
               <div className="snowhouse-col__bottom">
                 <Link
                   href="/books?tier=beginner"
-                  className="btn btn--outline-paper"
+                  className="btn btn--outline-paper btn-sweep-vertical"
                   style={{ width: "100%", justifyContent: "center" }}
                 >
                   <span>Mulai Gratis</span>
@@ -501,7 +501,7 @@ export function ScrollStoryline({
               <div className="snowhouse-col__bottom">
                 <Link
                   href="/pricing"
-                  className="btn btn--bundle"
+                  className="btn btn--bundle btn-sweep-diagonal"
                   style={{ width: "100%", justifyContent: "center" }}
                 >
                   <span>Beli Paket Bundle</span>
@@ -534,7 +534,7 @@ export function ScrollStoryline({
               <div className="snowhouse-col__bottom">
                 <Link
                   href="/pricing"
-                  className="btn btn--pro"
+                  className="btn btn--pro btn-sweep-horizontal"
                   style={{ width: "100%", justifyContent: "center" }}
                 >
                   <span>Langganan Pro</span>
@@ -545,7 +545,7 @@ export function ScrollStoryline({
           </div>
 
           <div style={{ marginTop: "var(--space-xl)", textAlign: "center" }}>
-            <Link href="/books" className="btn btn--catalogue-cta">
+            <Link href="/books" className="btn btn--catalogue-cta btn-sweep-diagonal">
               <span>Lihat Seluruh Katalog E-Book ({books.length} Buku)</span>
               <span className="btn-arrow" aria-hidden="true">→</span>
             </Link>

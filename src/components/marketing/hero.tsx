@@ -221,11 +221,11 @@ export function Hero() {
             </p>
 
             <div className="hero-monumental-actions">
-              <Link href="/books" className="btn hero-btn-primary">
+              <Link href="/books" className="btn hero-btn-primary btn-sweep-diagonal">
                 <span>Jelajahi E-Book</span>
                 <span className="btn-arrow" aria-hidden="true">→</span>
               </Link>
-              <Link href="/roadmap" className="btn btn--quiet hero-btn-secondary">
+              <Link href="/roadmap" className="btn btn--quiet hero-btn-secondary btn-sweep-horizontal">
                 <span>Lihat Roadmap</span>
                 <span className="btn-arrow" aria-hidden="true">→</span>
               </Link>
