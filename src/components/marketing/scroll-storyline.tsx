@@ -476,9 +476,6 @@ export function ScrollStoryline({
 
             {/* Col 2: Bundle 3 Buku (Featured) */}
             <div className="snowhouse-col">
-              <div className="snowhouse-col__floating-badge">
-                LISENSI SEUMUR HIDUP
-              </div>
               <div>
                 <div className="snowhouse-col__strip snowhouse-col__strip--bundle">
                   <span className="snowhouse-col__strip-title">Bundle 3 Buku</span>
