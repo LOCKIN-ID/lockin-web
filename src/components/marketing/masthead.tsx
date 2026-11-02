@@ -54,11 +54,12 @@ function isCurrent(pathname: string, href: string) {
  */
 export function Masthead({ initialUser, initialProfile }: Props = {}) {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(isHome);
+  const heroRevealedRef = useRef(!isHome);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
   const { data: clientSession } = useSession();
   const user = initialUser ?? clientSession?.user;
   const streak = initialProfile?.streakCurrent ?? 0;
@@ -79,22 +80,80 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
-
   useEffect(() => {
-    let lastY = window.scrollY;
+    const isHomePage = pathname === "/";
+    let lastY = typeof window !== "undefined" ? window.scrollY : 0;
+
+    if (!isHomePage) {
+      heroRevealedRef.current = true;
+      setHidden(false);
+    } else {
+      if (window.scrollY > 80) {
+        heroRevealedRef.current = true;
+        setHidden(false);
+      } else {
+        heroRevealedRef.current = false;
+        setHidden(true);
+      }
+    }
+
     const onScroll = () => {
       const currentY = window.scrollY;
-      if (currentY > lastY && currentY > 60) {
-        setHidden(true);
-      } else if (currentY < lastY || currentY <= 20) {
-        setHidden(false);
+
+      if (isHomePage) {
+        // If hero has not revealed yet and at top, keep hidden
+        if (!heroRevealedRef.current && currentY <= 60) {
+          setHidden(true);
+          lastY = currentY;
+          return;
+        }
+
+        // Once hero is revealed:
+        if (currentY <= 60) {
+          // In hero section at top: STAY VISIBLE!
+          setHidden(false);
+        } else {
+          // In section below:
+          // Scroll DOWN -> slide up to hide
+          // Scroll UP -> SLIDE DOWN FROM TOP TO SHOW!
+          if (currentY > lastY + 3) {
+            setHidden(true);
+          } else if (currentY < lastY - 3) {
+            setHidden(false);
+          }
+        }
+      } else {
+        // Non-homepage routes
+        if (currentY <= 20) {
+          setHidden(false);
+        } else if (currentY > lastY + 4) {
+          setHidden(true);
+        } else if (currentY < lastY - 4) {
+          setHidden(false);
+        }
       }
+
       lastY = currentY;
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
+    // Delayed slide-down entrance: hero reveals first, then navbar slides down from top
+    // Synchronized: slides down at the EXACT same time (5.2s) as the paragraph & buttons!
+    const onHeroRevealed = () => {
+      const timer = setTimeout(() => {
+        heroRevealedRef.current = true;
+        setHidden(false); // Triggers clean slide down from top!
+      }, 5200);
+      return () => clearTimeout(timer);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("lockin:hero-revealed", onHeroRevealed);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("lockin:hero-revealed", onHeroRevealed);
+    };
+  }, [pathname]);
   const handleSignOut = async () => {
     await signOut();
     router.push("/");
@@ -102,7 +161,7 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
   };
 
   return (
-    <header className={`masthead transition-transform duration-300 ${hidden && !open ? "-translate-y-full" : "translate-y-0"}`}>
+    <header className={`masthead ${hidden && !open ? "is-hidden" : ""}`}>
       <div className="container flex items-center gap-4 py-3">
         <Link href={user ? "/app" : "/"} className="mr-auto shrink-0">
           <Wordmark height={28} />

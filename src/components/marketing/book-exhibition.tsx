@@ -9,6 +9,15 @@ interface Props {
   books: BookContent[];
 }
 
+const EXPANDED_DESCRIPTIONS: Record<string, string> = {
+  beginner:
+    "Kuasai fondasi esensial web dan struktur logika dokumen secara tuntas. Didesain untuk pemula yang ingin memahami cara peramban merender teks, tata letak, dan interaksi tanpa terjebak video tutorial panjang yang pasif.",
+  intermediate:
+    "Bangun aplikasi reaktif mandiri dengan event dispatch dan pengelolaan state modern. Pelajari arsitektur data asynchronous dan penanganan aliran data secara efisien dalam format modul padat yang langsung dapat dieksekusi.",
+  expert:
+    "Eksplorasi rekayasa sistem tingkat lanjut di lingkungan Linux BusyBox WASM dan Python. Kuasai otomasi tugas berkala, pemrosesan stream data, dan optimasi performa komputasi mandiri.",
+};
+
 export function BookExhibition({ books }: Props) {
   const [activeSlug, setActiveSlug] = useState<string>(books[0]?.slug ?? "beginner");
   const activeIndex = books.findIndex((b) => b.slug === activeSlug);
@@ -18,11 +27,12 @@ export function BookExhibition({ books }: Props) {
       data-reveal="plate"
       style={{
         marginTop: "var(--space-2xl)",
-        background: "var(--color-paper-3)",
-        border: "1px solid var(--color-rule)",
+        background: "color-mix(in oklab, var(--color-forest) 18%, var(--color-paper))",
+        color: "var(--color-ink)",
+        border: "1.5px solid color-mix(in oklab, var(--color-forest) 25%, transparent)",
         borderRadius: "var(--radius-card)",
         padding: "var(--space-2xl) var(--space-xl)",
-        boxShadow: "var(--shadow-raised)",
+        boxShadow: "0 12px 36px rgba(18, 36, 23, 0.08)",
         position: "relative",
         overflow: "hidden",
       }}
@@ -158,13 +168,14 @@ export function BookExhibition({ books }: Props) {
                   className="chip"
                   style={{
                     cursor: "pointer",
-                    background: active ? "var(--color-forest)" : "var(--color-paper-2)",
-                    color: active ? "var(--color-paper)" : "var(--color-ink-2)",
-                    borderColor: active ? "var(--color-forest)" : "var(--color-rule)",
-                    fontWeight: active ? 700 : 500,
+                    background: active ? "var(--color-forest-deep)" : "color-mix(in oklab, var(--color-forest) 8%, transparent)",
+                    color: active ? "var(--color-paper)" : "var(--color-ink)",
+                    border: active ? "none" : "1px solid color-mix(in oklab, var(--color-forest) 18%, transparent)",
+                    fontWeight: active ? 800 : 600,
                     padding: "6px 14px",
                     fontSize: "var(--text-xs)",
-                    transition: "background-color 250ms ease, color 250ms ease, border-color 250ms ease",
+                    borderRadius: "20px",
+                    transition: "all 250ms ease",
                   }}
                 >
                   Modul 0{i + 1} · {b.levelLabel}
@@ -194,110 +205,81 @@ export function BookExhibition({ books }: Props) {
                       "opacity 450ms cubic-bezier(0.16, 1, 0.3, 1), transform 450ms cubic-bezier(0.16, 1, 0.3, 1), visibility 450ms",
                   }}
                 >
-                  <div style={{ display: "grid", gap: "var(--space-xs)" }}>
-                    <span
+                  <div style={{ display: "grid", gap: "var(--space-2xs)" }}>
+                    <h2
                       style={{
-                        fontFamily: "var(--font-outlier)",
-                        fontSize: "var(--text-xs)",
-                        letterSpacing: "0.12em",
-                        color: "var(--color-forest)",
-                        fontWeight: 800,
+                        fontSize: "clamp(2.2rem, 3.6vw, 3.2rem)",
+                        color: "var(--color-ink)",
+                        letterSpacing: "-0.03em",
+                        fontFamily: "var(--font-display)",
                         textTransform: "uppercase",
+                        lineHeight: 1,
                       }}
                     >
-                      MODUL 0{i + 1} · {b.levelLabel} TIER
-                    </span>
+                      {b.levelLabel}
+                    </h2>
 
-                    <h3 style={{ fontSize: "var(--text-2xl)", margin: 0, fontWeight: 900 }}>
-                      {b.title}
-                    </h3>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-code)",
+                        fontSize: "var(--text-2xs)",
+                        fontWeight: 800,
+                        letterSpacing: "0.1em",
+                        color: "var(--color-forest)",
+                      }}
+                    >
+                      MODUL 0{i + 1} · 10–15 HALAMAN PADAT
+                    </div>
 
-                    <p style={{ color: "var(--color-ink-2)", fontSize: "var(--text-md)", lineHeight: 1.5, margin: 0 }}>
-                      {b.promise}
+                    <p style={{ color: "var(--color-ink-2)", fontSize: "var(--text-sm)", lineHeight: 1.65, margin: 0, maxWidth: "52ch", fontWeight: 500 }}>
+                      {EXPANDED_DESCRIPTIONS[b.slug] ?? b.promise}
                     </p>
                   </div>
 
-                  {/* Chapter Outline Strip */}
+                  {/* 2x2 Metric Table (Soft Sage Palette - Zero White) */}
                   <div
                     style={{
-                      padding: "var(--space-md)",
-                      background: "var(--color-paper-2)",
-                      borderRadius: "var(--radius-card)",
-                      border: "1px solid var(--color-rule)",
-                      display: "grid",
-                      gap: "var(--space-xs)",
+                      background: "rgba(18, 36, 23, 0.08)",
+                      border: "1.5px solid rgba(18, 36, 23, 0.22)",
+                      borderRadius: "10px",
+                      overflow: "hidden",
                     }}
                   >
-                    <span
-                      style={{
-                        fontSize: "var(--text-xs)",
-                        color: "var(--color-muted)",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.06em",
-                      }}
-                    >
-                      Rangkaian Bab Pembelajaran ({b.chapters.length} Bab)
-                    </span>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2xs)" }}>
-                      {b.chapters.map((ch, idx) => (
-                        <span
-                          key={ch.id}
-                          style={{
-                            fontSize: "var(--text-xs)",
-                            background: "var(--color-paper-3)",
-                            border: "1px solid var(--color-rule)",
-                            borderRadius: "4px",
-                            padding: "3px 8px",
-                            color: "var(--color-ink)",
-                          }}
-                        >
-                          <strong style={{ color: "var(--color-forest)" }}>0{idx + 1}.</strong> {ch.title}
+                    {/* Row 1 */}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: "1px solid rgba(18, 36, 23, 0.18)" }}>
+                      <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "baseline", borderRight: "1px solid rgba(18, 36, 23, 0.18)" }}>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.08em", color: "#4B5E50", textTransform: "uppercase" }}>HALAMAN BUKU</span>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "1.45rem", fontWeight: 900, color: "var(--color-ink)" }}>10–15</span>
+                      </div>
+                      <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.08em", color: "#4B5E50", textTransform: "uppercase" }}>CHECKPOINTS</span>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "1.45rem", fontWeight: 900, color: "var(--color-ink)" }}>{b.chapters.length}</span>
+                      </div>
+                    </div>
+
+                    {/* Row 2 */}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+                      <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "baseline", borderRight: "1px solid rgba(18, 36, 23, 0.18)" }}>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.08em", color: "#4B5E50", textTransform: "uppercase" }}>QUEST QR CETAK</span>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "1.45rem", fontWeight: 900, color: "var(--color-ink)" }}>{b.quests.length}</span>
+                      </div>
+                      <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.08em", color: "#4B5E50", textTransform: "uppercase" }}>AKSES LISENSI</span>
+                        <span style={{ fontFamily: "var(--font-code)", fontSize: "1.45rem", fontWeight: 900, color: isFree ? "#007A48" : "var(--color-ink)" }}>
+                          {isFree ? "GRATIS" : priceLabel(b.priceIdr ?? 0)}
                         </span>
-                      ))}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Telemetry Bar & Action */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                      gap: "var(--space-md)",
-                      borderTop: "1px dashed var(--color-rule)",
-                      paddingTop: "var(--space-md)",
-                    }}
-                  >
-                    <div>
-                      <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-xs)" }}>
-                        <span
-                          className="num"
-                          style={{
-                            fontFamily: "var(--font-display)",
-                            fontSize: "var(--text-3xl)",
-                            fontWeight: 900,
-                            color: "var(--color-forest)",
-                          }}
-                        >
-                          {isFree ? "Gratis" : priceLabel(b.priceIdr ?? 0)}
-                        </span>
-                        <span style={{ fontSize: "var(--text-xs)", color: "var(--color-muted)" }}>
-                          / {b.pageCount} Halaman Padat
-                        </span>
-                      </div>
-                      <div style={{ fontSize: "var(--text-xs)", color: "var(--color-muted)", marginTop: "2px" }}>
-                        {b.chapters.length} Checkpoints · {b.quests.length} Kode QR Cetak
-                      </div>
-                    </div>
-
+                  {/* CTA Action */}
+                  <div>
                     <Link
                       href={`/books/${b.slug}`}
                       className="btn"
-                      style={{ minWidth: "160px", justifyContent: "center" }}
+                      style={{ display: "inline-flex", minWidth: "180px", justifyContent: "center", background: "var(--color-forest-deep)", color: "var(--color-paper)", boxShadow: "0 4px 14px rgba(18, 36, 23, 0.2)" }}
                     >
-                      {isFree ? "Buka Preview Gratis" : "Buka Modul E-Book"}
+                      Buka Modul Sekarang →
                     </Link>
                   </div>
                 </div>

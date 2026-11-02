@@ -81,9 +81,16 @@ export function FullLockup({ height = 48 }: { height?: number }) {
 /** The deck's stacked lockup: the disc above the name. Always on forest. */
 export function Stamp({ size = 40, children }: { size?: number; children?: ReactNode }) {
   return (
-    <span className="inline-flex flex-col items-start gap-2">
+    <span className="inline-flex flex-col items-start gap-3">
       <Mark size={size} />
-      <span className="font-display text-[1.35rem] leading-none tracking-display text-accent">LOCK.IN</span>
+      <img
+        src="/brand/logo.svg"
+        alt="LOCK.IN"
+        width={140}
+        height={26}
+        style={{ height: "26px", width: "auto" }}
+        className="block"
+      />
       {children}
     </span>
   );

@@ -24,7 +24,7 @@
 .pg .editor__gutter,
 .pg .editor__input {
   padding: var(--space-sm);
-  font-family: var(--font-outlier);
+  font-family: var(--font-code);
   line-height: 1.5rem;
 }
 
