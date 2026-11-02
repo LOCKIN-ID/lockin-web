@@ -93,8 +93,7 @@ img, video { max-width: 100%; height: auto; display: block; }
 svg { display: block; }
 [hidden] { display: none !important; }
 button, input, select, textarea { font: inherit; color: inherit; }
-code, kbd, pre { font-family: var(--font-outlier); font-variant-ligatures: none; }
-
+code, kbd, pre { font-family: inherit; font-variant-ligatures: none; }
 .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
 .num, .figure, td.num, .tnum { font-variant-numeric: tabular-nums; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -223,18 +222,27 @@ a.chip:hover, button.chip:hover { background: var(--color-paper-2); transform: t
 a.chip:active, button.chip:active { transform: translateY(1px); }
 .chip[aria-current="page"], .chip[data-state="on"] { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
 
-/* ---- code and console ------------------------------------------------ */
+/* ---- code and console: isolated to playground and runtime blocks ---- */
 .code {
   margin: 0;
   padding: var(--space-md);
   border-radius: var(--radius-card);
   background: var(--color-forest-deep);
   color: var(--color-paper);
-  font-family: var(--font-outlier);
+  font-family: var(--font-code);
   font-size: var(--text-sm);
   line-height: 1.6;
   overflow-x: auto;
   tab-size: 2;
+}
+
+.pg .editor__input,
+.pg .editor__gutter,
+.pg code,
+.pg pre,
+.playground code,
+.playground pre {
+  font-family: var(--font-code);
 }
 .code__line { display: block; padding-left: 2.25rem; position: relative; }
 .code__num {
@@ -252,7 +260,7 @@ a.chip:active, button.chip:active { transform: translateY(1px); }
   border-radius: var(--radius-card);
   background: var(--color-forest-deep);
   color: var(--color-paper);
-  font-family: var(--font-outlier);
+  font-family: var(--font-code);
   font-size: var(--text-xs);
   line-height: 1.5;
   overflow: auto;
@@ -280,13 +288,12 @@ a.chip:active, button.chip:active { transform: translateY(1px); }
 }
 
 @keyframes pageEnter {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .page-transition {
-  animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
-  will-change: opacity, transform;
+  animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ---- one reveal, visible without scripting --------------------------- */

@@ -3,9 +3,8 @@ import type { Metadata } from "next";
 
 import "./books.css";
 import { books } from "@/content/books";
-import { priceLabel } from "@/lib/format";
 import { TaglineStrip } from "@/components/marketing/tagline-strip";
-
+import { BookManualCard, type BookSampleSnippet } from "@/components/marketing/book-manual-card";
 export const metadata: Metadata = {
   title: "E-Books & Interactive Manuals | LOCK.IN",
   description: "Short, high-density, interactive e-books for developers. 15 to 25 pages, runnable snippets, physical QR quests, and integrated checkpoints.",
@@ -29,6 +28,26 @@ const BOOK_TOPICS: Record<string, string[]> = {
   expert: ["Python Automation", "BusyBox WASM", "Regex Pipelines", "Idempotent Cron"],
 };
 
+const BOOK_SNIPPETS: Record<string, BookSampleSnippet> = {
+  beginner: {
+    lang: "html",
+    code: `<h1>LOCK.IN</h1>\n<p>Two tags, two boxes.</p>\n<button>Run inside browser</button>`,
+    caption: "Edit tag HTML langsung dan lihat perubahannya seketika.",
+    runtime: "Browser HTML Sandbox",
+  },
+  intermediate: {
+    lang: "js",
+    code: `const value = 12 + 5;\nconsole.log(value, typeof value);\n// output: 17 number`,
+    caption: "Evaluasi state & event dispatch di sandbox worker mandiri.",
+    runtime: "JS Web Worker Sandbox",
+  },
+  expert: {
+    lang: "shell",
+    code: `pwd\nls -a /home/student\npython3 script.py | grep "CRITICAL"`,
+    caption: "Pipeline automasi Linux BusyBox WASM & Python Pyodide.",
+    runtime: "Linux BusyBox WASM & Pyodide",
+  },
+};
 interface BooksPageProps {
   searchParams: Promise<{ tier?: string }>;
 }
@@ -126,88 +145,23 @@ export default async function BooksPage({ searchParams }: BooksPageProps) {
 
         {/* Books Catalogue Grid */}
         <div className="catalogue" data-reveal-group>
-          {filteredBooks.map((book) => {
-            const sectionCount = book.chapters.reduce((n, ch) => n + ch.sections.length, 0);
-            const free = book.priceIdr === 0;
-            const topics = BOOK_TOPICS[book.slug] ?? [];
-
-            return (
-              <article key={book.slug} className="book-row" data-reveal="plate">
-                <div className="book-row__plate">
-                  <img
-                    src={COVER_MAP[book.slug] ?? "/ebooks/cover-lockin.png"}
-                    alt={`${book.title} cover`}
-                    className="book-row__cover-img"
-                  />
-                  <div className="book-row__scrim">
-                    <div className="book-row__badge-row">
-                      <span className="book-row__plate-badge">
-                        {TIER_NUMBERS[book.slug] ?? "TIER"}
-                      </span>
-                      <span className="book-row__plate-pages">
-                        {book.pageCount} pages
-                      </span>
-                    </div>
-                    <div className="book-row__level-scrim">
-                      {book.levelLabel}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="book-row__body">
-                  <div className="book-row__tier-strip">
-                    <span className="chip" style={{ background: "var(--color-paper-2)", color: "var(--color-forest)", fontWeight: 700 }}>
-                      {TIER_NUMBERS[book.slug] ?? "TIER"}: {book.levelLabel}
-                    </span>
-                    {free && (
-                      <span className="chip" style={{ background: "var(--color-accent)", color: "var(--color-accent-ink)", fontWeight: 700 }}>
-                        Free Access
-                      </span>
-                    )}
-                  </div>
-
-                  <h2 className="book-row__title">
-                    <Link href={`/books/${book.slug}`}>{book.title}</Link>
-                  </h2>
-
-                  <p className="book-row__promise">{book.promise}</p>
-
-                  <div className="book-row__topics" aria-label="Core topics covered">
-                    {topics.map((t) => (
-                      <span key={t} className="book-row__topic-tag">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="book-row__meta">
-                    <span>{book.chapters.length} chapters, {sectionCount} sections</span>
-                    <span>{book.quests.length} interactive quests</span>
-                  </div>
-                </div>
-
-                <div className="book-row__buy">
-                  <div className="book-row__price-block">
-                    <div className="book-row__price-type">{free ? "Open Edition" : "Lifetime Access"}</div>
-                    <div className="book-row__price">{free ? "Free" : priceLabel(book.priceIdr ?? 0)}</div>
-                  </div>
-
-                  <Link
-                    href={free ? `/app/books/${book.slug}` : `/books/${book.slug}#buy`}
-                    className="btn"
-                  >
-                    {free ? "Read in Browser" : "Buy E-Book"}
-                  </Link>
-                  <Link
-                    href={`/books/${book.slug}`}
-                    className="btn btn--quiet"
-                  >
-                    View Syllabus
-                  </Link>
-                </div>
-              </article>
-            );
-          })}
+          {filteredBooks.map((book) => (
+            <BookManualCard
+              key={book.slug}
+              book={book}
+              coverSrc={COVER_MAP[book.slug] ?? "/ebooks/cover-lockin.png"}
+              tierNumber={TIER_NUMBERS[book.slug] ?? "TIER"}
+              topics={BOOK_TOPICS[book.slug] ?? []}
+              snippet={
+                BOOK_SNIPPETS[book.slug] ?? {
+                  lang: "code",
+                  code: "// Code snippet",
+                  caption: "Runnable code snippet",
+                  runtime: "Browser Sandbox",
+                }
+              }
+            />
+          ))}
         </div>
 
         {/* Value Proposition Deck */}

@@ -26,8 +26,8 @@
   --font-title: var(--font-valorant), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-outlier: var(--font-mono-code), ui-monospace, SFMono-Regular, monospace;
-
+  --font-outlier: var(--font-body);
+  --font-code: var(--font-mono-code), ui-monospace, SFMono-Regular, monospace;
   --text-xs: 0.8125rem;
   --text-sm: 0.875rem;
   --text-md: 1rem;
@@ -66,9 +66,9 @@
   --space-3xl: 96px;
   --space-4xl: 144px;
 
-  --dur-micro: 260ms;
-  --dur-short: 380ms;
-  --dur-long: 580ms;
+  --dur-micro: 320ms;
+  --dur-short: 480ms;
+  --dur-long: 720ms;
 
   --container: 1080px;
   --gutter: 56px;

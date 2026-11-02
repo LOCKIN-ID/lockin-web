@@ -76,7 +76,7 @@
 
 .books-hero__feature-pill {
   flex-shrink: 0;
-  font-family: var(--font-outlier);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: 700;
   padding: 2px 8px;
@@ -94,190 +94,593 @@
   padding-bottom: var(--space-3xl);
 }
 
-.book-row {
-  display: grid;
-  gap: var(--space-xl);
-  padding: var(--space-xl);
+.book-card {
+  position: relative;
   background: var(--color-paper-3);
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
+  padding: var(--space-xl);
   transition: border-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
 }
 
-.book-row:hover {
+.book-card:hover {
   border-color: var(--color-muted);
   box-shadow: var(--shadow-raised);
 }
 
+.book-card__main-grid {
+  display: grid;
+  gap: var(--space-xl);
+}
+
 @media (min-width: 64rem) {
-  .book-row {
-    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) minmax(0, 13.5rem);
-    align-items: center;
+  .book-card__main-grid {
+    grid-template-columns: 13.5rem minmax(0, 1fr) 14.5rem;
+    align-items: start;
     gap: var(--space-2xl);
   }
 }
 
-/* book cover plate */
-.book-row__plate {
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: 15rem;
-  margin: 0 auto;
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  border: var(--rule-hair) solid var(--color-rule);
-  background: var(--color-forest-deep);
-  box-shadow: var(--shadow-raised);
-  aspect-ratio: 393 / 557;
+/* 3D Tactile Book Manual */
+.book-card__manual-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
-.book-row__cover-img {
+.book-manual {
+  position: relative;
+  width: 100%;
+  max-width: 13.5rem;
+  perspective: 900px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.book-manual__spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1.25rem;
+  background: linear-gradient(to right, var(--color-forest-deep), var(--color-ink));
+  border-radius: 4px 0 0 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-xs) 0;
+  z-index: 3;
+  box-shadow: inset -2px 0 4px color-mix(in oklab, var(--color-ink) 50%, transparent), -2px 2px 6px color-mix(in oklab, var(--color-ink) 25%, transparent);
+}
+
+.book-manual__spine-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-paper-2);
+  white-space: nowrap;
+}
+.book-manual__spine-stitches {
+  width: 2px;
+  height: 24px;
+  border-left: 2px dashed var(--color-accent);
+  opacity: 0.75;
+}
+
+.book-manual__cover-wrap {
+  position: relative;
+  margin-left: 0.85rem;
+  width: calc(100% - 0.85rem);
+  aspect-ratio: 393 / 557;
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-raised);
+  transform: rotateY(-5deg);
+  transform-origin: left center;
+  background: var(--color-forest-deep);
+}
+
+.book-manual__cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform var(--dur-short) var(--ease-out);
 }
 
-
-.book-row__scrim {
+.book-manual__glare {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, color-mix(in oklab, var(--color-forest-deep) 94%, transparent) 0%, color-mix(in oklab, var(--color-forest-deep) 20%, transparent) 60%, transparent 100%);
-  display: flex;
-  flex-direction: column;
-  justifyContent: space-between;
-  padding: var(--space-md);
+  background: linear-gradient(115deg, color-mix(in oklab, var(--color-paper-3) 25%, transparent) 0%, color-mix(in oklab, var(--color-paper-3) 5%, transparent) 25%, transparent 60%);
   pointer-events: none;
 }
 
-.book-row__badge-row {
+.book-manual__pages-edge {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  right: 0;
+  width: 5px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-paper-2),
+    var(--color-paper-2) 2px,
+    var(--color-rule) 2px,
+    var(--color-rule) 3px
+  );
+  box-shadow: inset 1px 0 2px color-mix(in oklab, var(--color-ink) 20%, transparent);
+}
+.book-manual__badge-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-xs);
   display: flex;
-  justifyContent: space-between;
+  justify-content: space-between;
   align-items: center;
-  gap: var(--space-xs);
+  background: linear-gradient(to top, color-mix(in oklab, var(--color-forest-deep) 96%, transparent) 0%, transparent 100%);
+  pointer-events: none;
 }
 
-.book-row__plate-badge {
-  font-family: var(--font-outlier);
+.book-manual__tier-badge {
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: 700;
-  padding: var(--space-2xs) var(--space-xs);
+  padding: 2px var(--space-2xs);
   border-radius: var(--radius-pill);
-  background: var(--color-paper-3);
+  background: var(--color-paper);
   color: var(--color-ink);
 }
 
-.book-row__plate-pages {
-  font-family: var(--font-outlier);
+.book-manual__pages-badge {
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: 600;
   color: var(--color-paper-2);
   text-shadow: 0 1px 2px var(--color-forest-deep);
 }
-
-.book-row__level-scrim {
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: 800;
-  color: var(--color-paper);
-  letter-spacing: var(--tracking-display);
+.book-card__manual-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  justify-content: center;
+  width: 100%;
 }
 
-/* book body */
-.book-row__body {
-  display: grid;
-  gap: var(--space-sm);
+.book-card__spec-pill {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  padding: var(--space-3xs) var(--space-xs);
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-2);
+}
+.book-card__spec-pill strong {
+  color: var(--color-forest);
+}
+
+/* Center Details & Inspector */
+.book-card__details-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
   min-width: 0;
 }
 
-.book-row__tier-strip {
+.book-card__header-strip {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
   gap: var(--space-xs);
 }
 
-.book-row__title {
-  font-size: var(--text-xl);
-  line-height: 1.15;
+.book-card__tier-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
 }
 
-.book-row__title a {
+.chip--tier {
+  background: var(--color-paper-2);
+  color: var(--color-forest);
+  font-weight: 700;
+}
+
+.chip--free {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 700;
+}
+
+.chip--access {
+  background: var(--color-paper);
+  color: var(--color-ink-2);
+  border: var(--rule-hair) solid var(--color-rule);
+}
+
+.book-card__runtime-tag {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+.book-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.2;
+  margin: var(--space-2xs) 0 0 0;
+}
+
+.book-card__title a {
   text-decoration: none;
   color: var(--color-ink);
+  transition: color var(--dur-micro) var(--ease-out);
 }
 
-.book-row__title a:hover {
+.book-card__title a:hover {
   color: var(--color-forest);
-  text-decoration: underline;
 }
 
-.book-row__promise {
-  color: var(--color-ink-2);
+.book-card__promise {
   font-size: var(--text-sm);
+  color: var(--color-ink-2);
   line-height: 1.5;
   margin: 0;
 }
 
-.book-row__topics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-xs);
+/* Inspector Tabs */
+.book-card__inspector {
   margin-top: var(--space-xs);
+  background: var(--color-paper);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  overflow: hidden;
 }
 
-.book-row__topic-tag {
-  font-family: var(--font-outlier);
+.book-card__tablist {
+  display: flex;
+  background: var(--color-paper-2);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  gap: 1px;
+}
+
+.book-card__tab {
+  flex: 1;
+  padding: var(--space-xs) var(--space-sm);
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
   font-size: var(--text-xs);
-  padding: var(--space-2xs) var(--space-xs);
-  border-radius: var(--radius-card);
+  font-weight: 600;
+  color: var(--color-ink-2);
+  cursor: pointer;
+  text-align: center;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+}
+
+.book-card__tab:hover {
+  background: color-mix(in oklab, var(--color-paper) 60%, transparent);
+  color: var(--color-ink);
+}
+
+.book-card__tab.is-active {
+  background: var(--color-paper);
+  color: var(--color-forest);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 var(--color-accent);
+}
+
+.book-card__tab:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.book-card__panel-container {
+  height: 140px;
+  min-height: 140px;
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.book-card__panel {
+  height: 100%;
+  padding: var(--space-sm) var(--space-md);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-size: var(--text-xs);
+}
+
+/* Tab 1: Overview Panel */
+.book-card__topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs) var(--space-2xs);
+}
+
+.book-card__topic-tag {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  padding: var(--space-3xs) var(--space-2xs);
   background: var(--color-paper-2);
   border: var(--rule-hair) solid var(--color-rule);
+  border-radius: 4px;
   color: var(--color-ink-2);
 }
 
-.book-row__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-md);
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-  margin-top: var(--space-2xs);
-}
-
-/* book buy/action */
-.book-row__buy {
+.book-card__quick-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-lg);
+  gap: var(--space-3xs);
+  padding-top: var(--space-2xs);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  color: var(--color-ink-2);
+  font-size: 0.76rem;
+}
+
+.book-card__quick-stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  line-height: 1.35;
+}
+
+.book-card__stat-bullet {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-forest);
+  flex-shrink: 0;
+}
+
+/* Tab 2: Syllabus Panel (2-Column Grid) */
+.book-card__syllabus-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3xs) var(--space-md);
+}
+
+@media (min-width: 40rem) {
+  .book-card__syllabus-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.book-card__syllabus-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) 0;
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  min-width: 0;
+}
+
+.book-card__chapter-num {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--color-forest);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+
+.book-card__chapter-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-ink);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.book-card__chapter-dur {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+/* Tab 3: Code Snippet Panel */
+.book-card__snippet-box {
+  background: var(--color-forest-deep);
+  border-radius: 8px;
+  overflow: hidden;
+  border: var(--rule-hair) solid var(--color-rule);
+  color: var(--color-paper);
+}
+
+.book-card__snippet-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3xs) var(--space-xs);
+  background: color-mix(in oklab, var(--color-forest-deep) 85%, var(--color-ink));
+  border-bottom: var(--rule-hair) solid color-mix(in oklab, var(--color-paper) 15%, transparent);
+}
+
+.book-card__snippet-title {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--color-paper-2);
+}
+
+.book-card__snippet-lang {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.book-card__snippet-pre {
+  margin: 0;
+  padding: var(--space-2xs) var(--space-xs);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  line-height: 1.4;
+  overflow-x: auto;
+  color: var(--color-paper-3);
+}
+
+.book-card__snippet-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-xs);
+  background: color-mix(in oklab, var(--color-forest-deep) 90%, var(--color-ink));
+  border-top: var(--rule-hair) solid color-mix(in oklab, var(--color-paper) 15%, transparent);
+  font-size: 0.7rem;
+  color: var(--color-paper-2);
+}
+
+.book-card__snippet-action {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.book-card__snippet-action:hover {
+  text-decoration: underline;
+}
+/* Right Dock: Action & Price Block */
+.book-card__dock-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
   background: var(--color-paper-2);
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-card);
   align-items: stretch;
-  justify-content: center;
+  justify-content: space-between;
+  height: 100%;
 }
 
-.book-row__price-block {
+.book-card__price-deck {
   text-align: center;
 }
 
-.book-row__price-type {
+.book-card__price-status {
+  display: block;
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   color: var(--color-muted);
+  font-weight: 600;
   margin-bottom: 2px;
 }
-
-.book-row__price {
-  font-family: var(--font-outlier);
-  font-size: var(--text-xl);
-  font-weight: 800;
+.book-card__price-amount {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 900;
   color: var(--color-ink);
+  line-height: 1.1;
 }
 
+.book-card__price-subtext {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--color-ink-2);
+  margin-top: var(--space-2xs);
+  line-height: 1.3;
+}
+
+.book-card__dock-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.btn--primary-mint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform var(--dur-micro) var(--ease-out), filter var(--dur-micro) var(--ease-out);
+  text-align: center;
+}
+
+.btn--primary-mint:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.btn--primary-mint:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.btn--outline-paper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  border: var(--rule-hair) solid var(--color-rule);
+  transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+  text-align: center;
+}
+
+.btn--outline-paper:hover {
+  background: var(--color-paper-3);
+  border-color: var(--color-muted);
+}
+
+.btn--outline-paper:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.book-card__confidence-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding-top: var(--space-xs);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+.book-card__guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
+
+.book-card__guarantee-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--color-forest);
+  flex-shrink: 0;
+}
 /* ---- curriculum value proposition deck -------------------------------- */
 .books-ecosystem {
   margin-top: var(--space-4xl);
@@ -306,7 +709,7 @@
 
 .books-ecosystem__card-badge {
   display: inline-block;
-  font-family: var(--font-outlier);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: 700;
   padding: var(--space-2xs) var(--space-xs);
@@ -383,14 +786,14 @@
   list-style: none;
 }
 .chapter > summary::-webkit-details-marker { display: none; }
-.chapter__n { font-family: var(--font-outlier); font-weight: 700; color: var(--color-forest); }
-.chapter > summary::after { content: "+"; margin-left: auto; font-family: var(--font-outlier); color: var(--color-ink-2); }
+.chapter__n { font-family: var(--font-body); font-weight: 700; color: var(--color-forest); }
+.chapter > summary::after { content: "+"; margin-left: auto; font-family: var(--font-body); color: var(--color-ink-2); }
 .chapter[open] > summary::after { content: "\2212"; }
 .chapter__goal { padding-bottom: var(--space-sm); font-size: var(--text-sm); color: var(--color-ink-2); }
 
 /* ---- the buy row and the meta row at the top of a detail page ---------- */
 .book-meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; }
-.book-meta__pages { font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-ink-2); }
+.book-meta__pages { font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-ink-2); }
 .book-buy {
   display: flex;
   flex-wrap: wrap;
@@ -398,4 +801,4 @@
   gap: var(--space-md);
   margin-top: var(--space-sm);
 }
-.book-buy__price { font-family: var(--font-outlier); font-size: var(--text-2xl); font-weight: 800; }
+.book-buy__price { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; }

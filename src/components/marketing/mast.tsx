@@ -72,12 +72,6 @@ export function Mast() {
 
         <div className="hair" />
 
-        {/* The tagline printed once, upside down, exactly where the deck leaves it.
-            The artwork is white on transparent, so its tone comes from opacity on
-            this ground rather than a recolour filter. */}
-        <div className="rotate-180 opacity-40" aria-hidden="true">
-          <TaglineImage height={18} />
-        </div>
 
         <div className="flex flex-wrap justify-between gap-4 font-outlier text-xs text-paper/70">
           <p>© 2026 LOCK.IN. Prices in Indonesian rupiah (IDR).</p>
