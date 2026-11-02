@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "LOCK.IN",
   title: {
-    default: "LOCK.IN: short, interactive e-books",
+    default: "LOCK.IN",
     template: "%s | LOCK.IN",
   },
   description:
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_ID",
     siteName: "LOCK.IN",
-    title: "LOCK.IN: short, interactive e-books",
+    title: "LOCK.IN",
     description:
       "15 to 25 pages per book, three levels, four runtimes in the browser, a coach that hints instead of answering.",
     url: siteUrl,
