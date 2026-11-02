@@ -1,5 +1,6 @@
-import { execFileSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 
 /**
  * The Chromium binary Puppeteer drives.
@@ -7,6 +8,19 @@ import { existsSync } from "node:fs";
  * `CHROME_PATH` always wins, because a deploy or a CI box knows best. The rest is the
  * per-platform default that used to be a Windows literal repeated in every script.
  */
+
+/** Chrome binaries below `dir`, depth-limited: the Puppeteer cache is `<product>/<version>/...`. */
+function findChrome(dir, depth = 0) {
+  if (depth > 4 || !existsSync(dir)) return [];
+  const found = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) found.push(...findChrome(full, depth + 1));
+    else if (entry.name === "chrome" || entry.name === "chrome.exe") found.push(full);
+  }
+  return found;
+}
+
 export function chromePath() {
   if (process.env.CHROME_PATH) return process.env.CHROME_PATH;
 
@@ -31,26 +45,20 @@ export function chromePath() {
 
   for (const candidate of candidates) if (existsSync(candidate)) return candidate;
 
-  // Last resort: a Chrome Puppeteer or the agent tooling already downloaded.
-  for (const root of ["$HOME/.cache/puppeteer", "$HOME/.omp/puppeteer"]) {
-    const expanded = root.replace("$HOME", process.env.HOME ?? "");
-    if (!existsSync(expanded)) continue;
-    try {
-      // `find` keeps this to one line instead of a recursive walk.
-      const found = execFileSync("find", [expanded, "-name", "chrome", "-type", "f"], {
-        encoding: "utf8",
-      })
-        .split("\n")
-        .filter(Boolean)
-        .sort()
-        .pop();
-      if (found) return found;
-    } catch {
-      // no find, no cache: fall through to the error below
-    }
+  // Last resort: a Chrome Puppeteer or the agent tooling already downloaded. `homedir()`
+  // is the only spelling that resolves on Windows, where HOME is not set.
+  const cacheRoots = [
+    process.env.PUPPETEER_CACHE_DIR,
+    join(homedir(), ".cache", "puppeteer"),
+    join(homedir(), ".omp", "puppeteer"),
+  ].filter(Boolean);
+
+  for (const root of cacheRoots) {
+    const found = findChrome(root).sort().pop();
+    if (found) return found;
   }
 
   throw new Error(
-    "No Chromium found. Set CHROME_PATH to a Chrome/Chromium/Edge binary and re-run.",
+    "No Chromium found. Set CHROME_PATH to a Chrome/Chromium/Edge binary, or run `npx puppeteer browsers install chrome`, then re-run.",
   );
 }

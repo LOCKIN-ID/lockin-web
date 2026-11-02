@@ -2,35 +2,56 @@
 
 ## Prerequisites
 
-- **Node 24** (`.nvmrc`); `nvm use` or `fnm use` picks it up.
-- **npm ≥ 11**. Node 24 ships npm 11, which runs install scripts normally. npm 12 blocks them by
-  default and needs one extra approval (see Setup).
+- **Node 22.12 or newer.** `.nvmrc` pins 24, which is what CI uses; `nvm use` or `fnm use` picks
+  it up. 22.12 is the floor because that is what `vitest` declares; nothing here needs 24 exactly.
+- **npm** (any version; Node 24 ships npm 11).
+- **Git.**
+
+Nothing else. No database server, no Docker, no API keys, no accounts with any service — the demo
+runs entirely offline on a SQLite file.
 
 ## Setup
 
 ```bash
-cp .env.example .env
-npm install
-npm run wasm:sync
-npm run db:migrate
-npm run db:seed
+git clone https://github.com/LOCKIN-ID/lockin-web.git
+cd lockin-web
+npm run setup
 npm run dev
 ```
 
-The app then runs at <http://localhost:3000> with an empty-but-populated demo database.
+`npm run setup` is safe to run again at any time. It reinstalls dependencies, re-applies
+migrations, and skips seeding when the database already exists, so your test data survives.
+
+The app then runs at <http://localhost:3000>.
+
+### If the one-liner fails
+
+Run the same steps by hand. `cp` is the only platform-specific part — it works in macOS, Linux,
+PowerShell and Git Bash, but **not** in `cmd.exe`, where it is `copy`:
+
+```bash
+cp .env.example .env          # macOS, Linux, PowerShell, Git Bash
+copy .env.example .env        # Windows cmd.exe
+npm install
+npm run wasm:sync
+npm run db:deploy
+npm run db:seed
+npm run test
+```
 
 Two things about this project that differ from a stock Next.js app:
 
 - **`.env`, not `.env.local`.** The Prisma CLI (`prisma.config.ts`) and the seed
   (`prisma/seed.ts`) both `import "dotenv/config"`, which reads `.env` only. A variable placed in
-  `.env.local` is invisible to `db:migrate` and `db:seed`.
-- **If `npm install` ran on npm ≥ 12**, approve the SQLite binding once before touching the
-  database, or every query fails with `Could not locate the bindings file`:
-  ```bash
-  npm install-scripts approve better-sqlite3
-  ```
-  `@prisma/adapter-better-sqlite3` pins `better-sqlite3@^12.6.0`, which ships no prebuild, so it
-  must be compiled locally. The root `better-sqlite3@13.0.3` does ship one.
+  `.env.local` is invisible to `db:deploy` and `db:seed`.
+- **`db:deploy`, not `db:migrate`.** `db:migrate` is `prisma migrate dev`: it is interactive and
+  writes new migration files, which a fresh clone does not have. `db:deploy` only applies what is
+  committed.
+
+The SQLite binding needs no manual approval on any npm version: `package.json` already lists
+`allowScripts: { "better-sqlite3": true }` (npm ≥ 12 blocks install scripts by default), and
+`better-sqlite3@12.11.1` publishes prebuilt binaries for Linux, macOS and Windows on x64 and arm64,
+so nothing is compiled locally and no compiler toolchain is required.
 
 ### Demo accounts
 
@@ -41,6 +62,29 @@ Two things about this project that differ from a stock Next.js app:
 
 The learner starts with three days of history (XP, streak, two badges) so the dashboard,
 leaderboard and rewards screens are not empty.
+
+## Inviting a collaborator
+
+The repository is **private**: an org admin must invite the person on GitHub before any of this
+works for them. After they accept, send them this:
+
+> Clone the repo and run two commands:
+>
+> ```bash
+> git clone https://github.com/LOCKIN-ID/lockin-web.git
+> cd lockin-web
+> npm run setup
+> npm run dev
+> ```
+>
+> Open <http://localhost:3000>. Sign in as `admin@lockin.test` / `lockin-admin-2026`, or as a
+> learner with `student@lockin.test` / `lockin-student-2026`.
+>
+> You need Node 22.12+ (24 is pinned in `.nvmrc`) and Git. Nothing else: **no API keys, no Docker,
+> no database server.** Everything runs offline against a local SQLite file.
+>
+> To contribute: never push to `main`. Make a branch, open a pull request. The details are in
+> `CONTRIBUTING.md` in the repo.
 
 ## Branches and pull requests
 
