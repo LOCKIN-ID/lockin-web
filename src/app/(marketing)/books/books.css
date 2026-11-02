@@ -610,14 +610,14 @@
   justify-content: center;
   background: var(--color-accent);
   color: var(--color-ink);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: var(--text-sm);
   padding: var(--space-xs) var(--space-md);
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
-  border: 1.5px solid var(--color-ink);
-  box-shadow: 2.5px 2.5px 0px var(--color-ink);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition:
     background-color 450ms var(--ease-out),
     color 450ms var(--ease-out),
@@ -628,14 +628,14 @@
 }
 
 .btn--primary-mint:hover {
-  background: color-mix(in oklab, var(--color-accent) 88%, white);
-  transform: translate(-2px, -2px);
-  box-shadow: 4.5px 4.5px 0px var(--color-ink);
+  background: color-mix(in oklab, var(--color-accent) 90%, white);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -3px rgba(74, 222, 128, 0.35);
 }
 
 .btn--primary-mint:active {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px var(--color-ink);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   transition-duration: 90ms;
 }
 
@@ -648,16 +648,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-paper);
+  background: #ffffff;
   color: var(--color-ink);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 600;
   font-size: var(--text-xs);
   padding: var(--space-xs) var(--space-md);
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
-  border: 1.5px solid var(--color-ink);
-  box-shadow: 2px 2px 0px var(--color-ink);
+  border: 1px solid var(--color-rule);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   transition:
     background-color 450ms var(--ease-out),
     color 450ms var(--ease-out),
@@ -669,16 +669,16 @@
 }
 
 .btn--outline-paper:hover {
-  background: var(--color-ink);
-  color: var(--color-paper);
-  border-color: var(--color-ink);
-  transform: translate(-2px, -2px);
-  box-shadow: 4px 4px 0px var(--color-accent);
+  background: #ffffff;
+  color: var(--color-ink);
+  border-color: color-mix(in oklab, var(--color-ink) 25%, transparent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px -3px rgba(0, 0, 0, 0.07);
 }
 
 .btn--outline-paper:active {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px var(--color-ink);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   transition-duration: 90ms;
 }
 

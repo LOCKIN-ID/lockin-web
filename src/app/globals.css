@@ -393,16 +393,16 @@
   }
 
   .hero-btn-primary {
-    min-height: 52px;
-    padding: 0 var(--space-xl);
-    font-size: 1.0625rem;
-    font-weight: 800;
-    font-family: var(--font-display);
+    min-height: 50px;
+    padding: 0 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-body);
     background: var(--color-accent);
     color: var(--color-ink);
-    border: 2px solid var(--color-ink);
-    border-radius: 6px;
-    box-shadow: 4px 4px 0px var(--color-ink);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(74, 222, 128, 0.25), 0 1px 2px rgba(0, 0, 0, 0.04);
     transition:
       background-color 450ms var(--ease-out),
       color 450ms var(--ease-out),
@@ -412,29 +412,29 @@
   }
 
   .hero-btn-primary:hover {
-    background: color-mix(in oklab, var(--color-accent) 88%, white);
+    background: color-mix(in oklab, var(--color-accent) 90%, white);
     color: var(--color-ink);
-    transform: translate(-3px, -3px);
-    box-shadow: 7px 7px 0px var(--color-ink);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -4px rgba(74, 222, 128, 0.38), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
   }
 
   .hero-btn-primary:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--color-ink);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     transition-duration: 90ms;
   }
 
   .hero-btn-secondary {
-    min-height: 52px;
-    padding: 0 var(--space-xl);
-    font-size: 1.0625rem;
-    font-weight: 700;
-    font-family: var(--font-display);
-    background: var(--color-paper-3);
+    min-height: 50px;
+    padding: 0 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    background: #ffffff;
     color: var(--color-ink);
-    border: 2px solid var(--color-ink);
-    border-radius: 6px;
-    box-shadow: 4px 4px 0px color-mix(in oklab, var(--color-ink) 25%, transparent);
+    border: 1px solid var(--color-rule);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     transition:
       background-color 450ms var(--ease-out),
       color 450ms var(--ease-out),
@@ -444,29 +444,29 @@
   }
 
   .hero-btn-secondary:hover {
-    background: var(--color-ink);
-    color: var(--color-paper);
-    border-color: var(--color-ink);
-    transform: translate(-3px, -3px);
-    box-shadow: 7px 7px 0px var(--color-ink);
+    background: #ffffff;
+    color: var(--color-ink);
+    border-color: color-mix(in oklab, var(--color-ink) 25%, transparent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -3px rgba(0, 0, 0, 0.08), 0 3px 8px -2px rgba(0, 0, 0, 0.03);
   }
 
   .hero-btn-secondary:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--color-ink);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     transition-duration: 90ms;
   }
 
   .btn--bundle {
     width: 100%;
-    min-height: 48px;
-    border: 2px solid var(--color-ink);
-    border-radius: 6px;
+    min-height: 46px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
     background: var(--color-accent);
     color: var(--color-ink);
-    font-weight: 900;
-    font-family: var(--font-display);
-    box-shadow: 3px 3px 0px var(--color-ink);
+    font-weight: 700;
+    font-family: var(--font-body);
+    box-shadow: 0 2px 6px rgba(74, 222, 128, 0.2);
     transition:
       background-color 450ms var(--ease-out),
       color 450ms var(--ease-out),
@@ -475,28 +475,28 @@
   }
 
   .btn--bundle:hover {
-    background: color-mix(in oklab, var(--color-accent) 88%, white);
+    background: color-mix(in oklab, var(--color-accent) 90%, white);
     color: var(--color-ink);
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0px var(--color-ink);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -4px rgba(74, 222, 128, 0.35);
   }
 
   .btn--bundle:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px var(--color-ink);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     transition-duration: 90ms;
   }
 
   .btn--pro {
     width: 100%;
-    min-height: 48px;
-    border: 2px solid var(--color-ink);
-    border-radius: 6px;
+    min-height: 46px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
     background: var(--color-forest-deep);
-    color: var(--color-paper);
-    font-weight: 800;
-    font-family: var(--font-display);
-    box-shadow: 3px 3px 0px var(--color-ink);
+    color: #ffffff;
+    font-weight: 700;
+    font-family: var(--font-body);
+    box-shadow: 0 2px 6px rgba(31, 58, 45, 0.2);
     transition:
       background-color 450ms var(--ease-out),
       color 450ms var(--ease-out),
@@ -506,29 +506,28 @@
   }
 
   .btn--pro:hover {
-    background: var(--color-ink);
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0px var(--color-accent);
+    background: color-mix(in oklab, var(--color-forest-deep) 88%, white);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -4px rgba(31, 58, 45, 0.3);
   }
 
   .btn--pro:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px var(--color-ink);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     transition-duration: 90ms;
   }
 
   .btn--catalogue-cta {
-    min-height: 50px;
+    min-height: 48px;
     padding: 0 var(--space-xl);
-    border: 2px solid var(--color-ink);
-    border-radius: 6px;
-    background: var(--color-paper);
+    border: 1px solid var(--color-rule);
+    border-radius: 8px;
+    background: #ffffff;
     color: var(--color-ink);
-    font-weight: 700;
-    font-family: var(--font-display);
-    box-shadow: 3px 3px 0px var(--color-ink);
+    font-weight: 600;
+    font-family: var(--font-body);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     transition:
       background-color 450ms var(--ease-out),
       color 450ms var(--ease-out),
@@ -538,15 +537,16 @@
   }
 
   .btn--catalogue-cta:hover {
-    background: var(--color-accent);
+    background: #ffffff;
     color: var(--color-ink);
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px var(--color-ink);
+    border-color: color-mix(in oklab, var(--color-ink) 25%, transparent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -3px rgba(0, 0, 0, 0.08);
   }
 
   .btn--catalogue-cta:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px var(--color-ink);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     transition-duration: 90ms;
   }
   /* A page head, repeated on the eight marketing routes. */
@@ -873,10 +873,10 @@
 
   .crt-page-btn {
     background: rgba(255, 255, 255, 0.06);
-    border: 1.5px solid rgba(241, 241, 235, 0.2);
-    color: var(--color-paper);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--color-paper-2);
     padding: 6px 14px;
-    border-radius: 4px;
+    border-radius: 6px;
     font-family: var(--font-code);
     font-size: var(--text-xs);
     cursor: pointer;
@@ -889,19 +889,19 @@
   }
 
   .crt-page-btn:hover {
-    background: rgba(216, 226, 215, 0.22);
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   .crt-page-btn.is-active {
     background: var(--color-accent);
     border-color: var(--color-accent);
     color: var(--color-ink);
-    font-weight: 800;
-    box-shadow: 0 0 12px rgba(131, 226, 180, 0.35);
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(131, 226, 180, 0.3);
   }
 
   .crt-caption {
