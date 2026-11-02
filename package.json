@@ -1,5 +1,5 @@
 {
-  "name": "lockin",
+  "name": "lockin-web",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start",
     "setup": "node scripts/setup.mjs",
     "lint": "eslint",
@@ -54,6 +56,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
+    "@opennextjs/cloudflare": "^1.20.15",
     "@types/node": "^22",
     "@types/qrcode": "1.5.6",
     "@types/react": "^19",
@@ -65,9 +68,15 @@
     "tailwindcss": "4.3.3",
     "tsx": "4.23.15",
     "typescript": "^5",
-    "vitest": "5.0.5"
+    "vitest": "5.0.5",
+    "wrangler": "^4.156.1"
   },
   "allowScripts": {
-    "better-sqlite3": true
+    "@prisma/engines": true,
+    "better-sqlite3": true,
+    "esbuild": true,
+    "prisma": true,
+    "unrs-resolver": true,
+    "workerd": true
   }
 }

@@ -77,3 +77,9 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# opennext & cloudflare wrangler
+.open-next/
+.wrangler/
+.dev.vars*
+!.dev.vars.example
