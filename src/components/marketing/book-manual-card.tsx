@@ -250,16 +250,18 @@ export function BookManualCard({
           <div className="book-card__dock-actions">
             <Link
               href={free ? `/app/books/${book.slug}` : `/books/${book.slug}#buy`}
-              className="btn btn--primary-mint"
+              className="btn btn--primary-mint btn-sweep-horizontal"
             >
-              {free ? "Mulai Baca Sekarang" : "Beli E-Book & Akses"}
+              <span>{free ? "Mulai Baca Sekarang" : "Beli E-Book & Akses"}</span>
+              <span className="btn-arrow" aria-hidden="true">→</span>
             </Link>
 
             <Link
               href={`/books/${book.slug}`}
-              className="btn btn--outline-paper"
+              className="btn btn--outline-paper btn-sweep-horizontal"
             >
-              Lihat Silabus Lengkap
+              <span>Lihat Silabus Lengkap</span>
+              <span className="btn-arrow" aria-hidden="true">→</span>
             </Link>
           </div>
         </div>

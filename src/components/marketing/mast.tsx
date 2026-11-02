@@ -59,7 +59,7 @@ export function Mast() {
                 <ul className="grid gap-2">
                   {column.links.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-sm text-paper/80 hover:text-paper">
+                      <Link href={link.href} className="footer-link-slide text-sm text-paper/80">
                         {link.label}
                       </Link>
                     </li>

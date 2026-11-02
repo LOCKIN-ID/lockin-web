@@ -172,7 +172,7 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-ink-2 hover:text-ink font-medium"
+              className="nav-link-slide text-sm text-ink-2 hover:text-ink font-medium"
               aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
             >
               {item.label}
@@ -205,38 +205,38 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
 
             <Link
               href="/app"
-              className="btn btn--quiet btn--sm"
+              className="btn btn--quiet btn--sm btn-sweep-diagonal"
               style={{ fontWeight: 600 }}
               aria-label="User profile"
             >
-              {user.name?.split(" ")[0] ?? "Learner"}
+              <span>{user.name?.split(" ")[0] ?? "Learner"}</span>
             </Link>
 
             <Link
               href="/app/settings"
-              className="btn btn--quiet btn--sm"
+              className="btn btn--quiet btn--sm btn-sweep-diagonal"
               aria-label="Account settings"
             >
-              Settings
+              <span>Settings</span>
             </Link>
 
             <button
               type="button"
               onClick={handleSignOut}
-              className="btn btn--quiet btn--sm"
+              className="btn btn--quiet btn--sm btn-sweep-diagonal"
               style={{ color: "var(--color-muted)" }}
               aria-label="Sign out"
             >
-              Sign out
+              <span>Sign out</span>
             </button>
           </div>
          ) : (
           <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/login" className="btn btn--quiet btn--sm">
-              Sign in
+            <Link href="/login" className="btn btn--quiet btn--sm btn-sweep-diagonal">
+              <span>Sign in</span>
             </Link>
-            <Link href="/register" className="btn btn--sm">
-              Start free
+            <Link href="/register" className="btn btn--sm btn-sweep-diagonal">
+              <span>Start free</span>
             </Link>
           </div>
         )}
@@ -250,7 +250,7 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <Close /> : <Menu />}
-          {open ? "Close" : "Menu"}
+          <span>{open ? "Close" : "Menu"}</span>
         </button>
       </div>
 
@@ -275,7 +275,7 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-md text-ink-2"
+                className="nav-link-slide text-md text-ink-2 font-medium"
                 aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
               >
                 {item.label}
@@ -284,25 +284,25 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
 
             {user ? (
               <div className="flex flex-col gap-2 pt-2 border-t border-rule">
-                <Link href="/app/settings" className="btn btn--quiet btn--sm" style={{ width: "100%", justifyContent: "center" }}>
-                  User Settings &amp; Profile
+                <Link href="/app/settings" className="btn btn--quiet btn--sm btn-sweep-diagonal" style={{ width: "100%", justifyContent: "center" }}>
+                  <span>User Settings &amp; Profile</span>
                 </Link>
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="btn btn--quiet btn--sm"
+                  className="btn btn--quiet btn--sm btn-sweep-diagonal"
                   style={{ width: "100%", justifyContent: "center", color: "var(--color-error)" }}
                 >
-                  Sign out
+                  <span>Sign out</span>
                 </button>
               </div>
             ) : (
               <div className="flex flex-wrap gap-2 pt-2 border-t border-rule">
-                <Link href="/login" className="btn btn--quiet btn--sm">
-                  Sign in
+                <Link href="/login" className="btn btn--quiet btn--sm btn-sweep-diagonal">
+                  <span>Sign in</span>
                 </Link>
-                <Link href="/register" className="btn btn--sm">
-                  Start free
+                <Link href="/register" className="btn btn--sm btn-sweep-diagonal">
+                  <span>Start free</span>
                 </Link>
               </div>
             )}

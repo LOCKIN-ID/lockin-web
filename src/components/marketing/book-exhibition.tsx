@@ -276,10 +276,11 @@ export function BookExhibition({ books }: Props) {
                   <div>
                     <Link
                       href={`/books/${b.slug}`}
-                      className="btn"
-                      style={{ display: "inline-flex", minWidth: "180px", justifyContent: "center", background: "var(--color-forest-deep)", color: "var(--color-paper)", boxShadow: "0 4px 14px rgba(18, 36, 23, 0.2)" }}
+                      className="btn btn--pro btn-sweep-horizontal"
+                      style={{ display: "inline-flex", minWidth: "200px", justifyContent: "center" }}
                     >
-                      Buka Modul Sekarang →
+                      <span>Buka Modul Sekarang</span>
+                      <span className="btn-arrow" aria-hidden="true">→</span>
                     </Link>
                   </div>
                 </div>
