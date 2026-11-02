@@ -225,7 +225,7 @@ export function Hero() {
                 <span>Jelajahi E-Book</span>
                 <span className="btn-arrow" aria-hidden="true">→</span>
               </Link>
-              <Link href="/roadmap" className="btn btn--quiet hero-btn-secondary btn-sweep-horizontal">
+              <Link href="/roadmap" className="btn btn--quiet hero-btn-secondary btn-sweep-diagonal">
                 <span>Lihat Roadmap</span>
                 <span className="btn-arrow" aria-hidden="true">→</span>
               </Link>
