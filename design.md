@@ -45,6 +45,10 @@ durations are the scaffold's and live in `tokens.css` beside these roles.
   `color-mix(in oklab, var(--color-paper) 35%, transparent)` and the label is paper
 - One filled primary per view; a second action is the outline. Chips and tabs are `--radius-pill`, hairline rule,
   and mint only in their selected state.
+- Hover is one move on every control: the fill wipes in from the left edge (`--dur-short`, `--ease-out`) and the
+  label flips to the colour that reads on that fill (`--btn-label-hover`: accent on ink for a mint control, paper
+  on ink for an outline or a quiet control, ink on mint for the pro control). Nothing lifts, glows, or nudges the
+  arrow; the press scales the control to 0.985 over `--dur-press`.
 
 ## Motion
 - Character: brisk. Durations `--dur-micro` 120ms, `--dur-short` 220ms, `--dur-long` 420ms; easings `--ease-out` in,

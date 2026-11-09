@@ -619,21 +619,15 @@
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition:
-    background-color 680ms var(--ease-out),
-    color 680ms var(--ease-out),
-    transform 680ms var(--ease-out),
-    box-shadow 680ms var(--ease-out);
+    color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
   text-align: center;
   cursor: pointer;
-}
-.btn--primary-mint::before {
-  background: var(--color-ink);
 }
 
 .btn--primary-mint:hover {
   border-color: var(--color-ink);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px -3px rgba(0, 0, 0, 0.18);
 }
 
 .btn--primary-mint:hover > *,
@@ -641,9 +635,8 @@
   color: var(--color-accent) !important;
 }
 .btn--primary-mint:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-  transition-duration: 90ms;
+  transform: scale(0.985);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .btn--primary-mint:focus-visible {
@@ -666,31 +659,24 @@
   border: 1px solid color-mix(in oklab, var(--color-ink) 18%, var(--color-rule));
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   transition:
-    background-color 680ms var(--ease-out),
-    color 680ms var(--ease-out),
-    border-color 680ms var(--ease-out),
-    transform 680ms var(--ease-out),
-    box-shadow 680ms var(--ease-out);
+    color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
   text-align: center;
   cursor: pointer;
-}
-.btn--outline-paper::before {
-  background: var(--color-ink);
+  --btn-label-hover: var(--color-paper);
 }
 
 .btn--outline-paper:hover {
   border-color: var(--color-ink);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px -3px rgba(0, 0, 0, 0.08);
 }
 
 .btn--outline-paper:hover > * {
   color: var(--color-paper);
 }
 .btn--outline-paper:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  transition-duration: 90ms;
+  transform: scale(0.985);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .btn--outline-paper:focus-visible {

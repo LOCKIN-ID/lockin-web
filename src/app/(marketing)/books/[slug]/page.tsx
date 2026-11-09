@@ -168,7 +168,7 @@ export default async function BookDetailPage({ params }: Props) {
                 </Link>
               ) : (
                 <Link href="/pricing" className="btn">
-                  Read with Pro or Lifetime
+                  Get Pro or Lifetime
                 </Link>
               )}
             </div>

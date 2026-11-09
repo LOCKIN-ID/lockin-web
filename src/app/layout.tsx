@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import localFont from "next/font/local";
 import { Space_Grotesk, Plus_Jakarta_Sans, Archivo, Inter, JetBrains_Mono } from "next/font/google";
 
@@ -65,6 +66,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         {children}
+        {/* Cloudflare Web Analytics: cookieless page counts. Added by hand because
+          * a Workers/Pages deploy gets no beacon injection at the edge. */}
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          type="module"
+          data-cf-beacon='{"token": "745620f91663455395bbb2caaad73650"}'
+        />
       </body>
     </html>
   );

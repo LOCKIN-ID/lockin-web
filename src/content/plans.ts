@@ -324,7 +324,7 @@ export const PLAN_FEATURES: FeatureRow[] = [
   },
   {
     label: "Levels",
-    proof: "the roadmap",
+    proof: "the books",
     value: { free: "Beginner", pro: "Beginner, Intermediate, Expert", lifetime: "Beginner, Intermediate, Expert" },
   },
   {

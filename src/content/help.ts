@@ -266,7 +266,11 @@ We do not issue certificates. What we can show you is a real record: sections fi
     summary: "The account, the progress, the orders: and the three things that never leave your browser.",
     keywords: "privacy data personal information delete account gdpr trackers cookies analytics storage",
     sortOrder: 10,
-    bodyMd: `Everything below is what the running site actually stores. There is no analytics script, no advertising pixel and no cross-site tracker in the page.
+    bodyMd: `Everything below is what the running site stores, and the one thing it counts. There is no advertising pixel and no cross-site tracker in the page.
+
+## What is counted
+
+Page views go to Cloudflare Web Analytics. It sets no cookie and keeps no identifier that follows you to another site: it records that a page was opened, which page linked to it, and which country asked. Nothing you type reaches it, and none of it is tied to your account.
 
 ## On your account
 

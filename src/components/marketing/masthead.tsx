@@ -29,7 +29,6 @@ const PUBLIC_NAV = [
   { href: "/books", label: "Books" },
   { href: "/pricing", label: "Pricing" },
   { href: "/playground", label: "Playground" },
-  { href: "/roadmap", label: "Roadmap" },
   { href: "/help", label: "Help" },
 ];
 
@@ -37,7 +36,6 @@ const APP_NAV = [
   { href: "/app", label: "Dashboard" },
   { href: "/books", label: "Books" },
   { href: "/playground", label: "Playground" },
-  { href: "/roadmap", label: "Roadmap" },
   { href: "/app/quests", label: "Quests" },
   { href: "/help", label: "Help" },
 ];
@@ -205,7 +203,7 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
 
             <Link
               href="/app"
-              className="btn btn--quiet btn--sm btn-sweep-diagonal"
+              className="btn btn--quiet btn--sm"
               style={{ fontWeight: 600 }}
               aria-label="User profile"
             >
@@ -214,7 +212,7 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
 
             <Link
               href="/app/settings"
-              className="btn btn--quiet btn--sm btn-sweep-diagonal"
+              className="btn btn--quiet btn--sm"
               aria-label="Account settings"
             >
               <span>Settings</span>
@@ -223,7 +221,7 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
             <button
               type="button"
               onClick={handleSignOut}
-              className="btn btn--quiet btn--sm btn-sweep-diagonal"
+              className="btn btn--quiet btn--sm"
               style={{ color: "var(--color-muted)" }}
               aria-label="Sign out"
             >
@@ -232,10 +230,10 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
           </div>
          ) : (
           <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/login" className="btn btn--quiet btn--sm btn-sweep-diagonal">
+            <Link href="/login" className="btn btn--quiet btn--sm">
               <span>Sign in</span>
             </Link>
-            <Link href="/register" className="btn btn--sm btn-sweep-diagonal">
+            <Link href="/register" className="btn btn--sm">
               <span>Start free</span>
             </Link>
           </div>
@@ -284,13 +282,13 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
 
             {user ? (
               <div className="flex flex-col gap-2 pt-2 border-t border-rule">
-                <Link href="/app/settings" className="btn btn--quiet btn--sm btn-sweep-diagonal" style={{ width: "100%", justifyContent: "center" }}>
+                <Link href="/app/settings" className="btn btn--quiet btn--sm" style={{ width: "100%", justifyContent: "center" }}>
                   <span>User Settings &amp; Profile</span>
                 </Link>
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="btn btn--quiet btn--sm btn-sweep-diagonal"
+                  className="btn btn--quiet btn--sm"
                   style={{ width: "100%", justifyContent: "center", color: "var(--color-error)" }}
                 >
                   <span>Sign out</span>
@@ -298,10 +296,10 @@ export function Masthead({ initialUser, initialProfile }: Props = {}) {
               </div>
             ) : (
               <div className="flex flex-wrap gap-2 pt-2 border-t border-rule">
-                <Link href="/login" className="btn btn--quiet btn--sm btn-sweep-diagonal">
+                <Link href="/login" className="btn btn--quiet btn--sm">
                   <span>Sign in</span>
                 </Link>
-                <Link href="/register" className="btn btn--sm btn-sweep-diagonal">
+                <Link href="/register" className="btn btn--sm">
                   <span>Start free</span>
                 </Link>
               </div>
