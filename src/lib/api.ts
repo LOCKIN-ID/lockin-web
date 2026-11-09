@@ -21,6 +21,10 @@ export function refuse(reason: string, status = 400): Response {
 
 /** The caller's IP as seen through a proxy chain, for rate limits and audit rows. */
 export function clientIp(request: Request): string {
+  // The edge's own answer first: a caller can write `x-forwarded-for`, and on Cloudflare
+  // `cf-connecting-ip` is the one header it cannot.
+  const edge = request.headers.get("cf-connecting-ip");
+  if (edge) return edge.trim();
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) return forwarded.split(",")[0]!.trim();
   return request.headers.get("x-real-ip") ?? "unknown";

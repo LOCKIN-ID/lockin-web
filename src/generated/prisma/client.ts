@@ -191,3 +191,8 @@ export type Redemption = Prisma.RedemptionModel
  * 
  */
 export type Coupon = Prisma.CouponModel
+/**
+ * Model PageView
+ * 
+ */
+export type PageView = Prisma.PageViewModel

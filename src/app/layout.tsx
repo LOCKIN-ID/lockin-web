@@ -6,6 +6,7 @@ import { Space_Grotesk, Plus_Jakarta_Sans, Archivo, Inter, JetBrains_Mono } from
 import { Reveal } from "@/components/motion/reveal";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { SectionScroller } from "@/components/motion/section-scroller";
+import { PageViewBeacon } from "@/components/analytics/page-view-beacon";
 
 import "./globals.css";
 
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScroll />
         <SectionScroller />
         <Reveal />
+        <PageViewBeacon />
         <a className="skip" href="#main">
           Skip to content
         </a>

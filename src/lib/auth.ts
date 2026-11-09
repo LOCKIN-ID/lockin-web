@@ -5,10 +5,11 @@ import { nextCookies } from "better-auth/next-js";
 import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import { prisma } from "./prisma";
+import { authSecret } from "./secret";
 import { enqueue, enqueueWelcomeSequence } from "./email/queue";
 
 export const auth = betterAuth({
-  secret: process.env.BETTER_AUTH_SECRET || "lockin-production-auth-secret-key-2026",
+  secret: authSecret,
   baseURL: process.env.BETTER_AUTH_URL || process.env.APP_URL || "https://lockin-web.egansray.workers.dev",
   database: prismaAdapter(prisma, { provider: "sqlite" }),
   emailAndPassword: {

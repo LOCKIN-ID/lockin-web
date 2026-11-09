@@ -164,6 +164,11 @@ export const questNoteSchema = z.object({
 
 export const questCodeSchema = z.object({ code: codeField });
 
+/** A page open as the browser reports it: the path only; the rest is the edge's to add. */
+export const pageViewSchema = z.object({
+  path: z.string().trim().min(1, "A page open needs a path.").max(200),
+});
+
 export const adminBookSchema = z.object({
   slug: slugField,
   priceIdr: z.coerce.number().int().min(0).max(5_000_000),

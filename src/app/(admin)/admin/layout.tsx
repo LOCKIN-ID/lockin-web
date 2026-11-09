@@ -35,6 +35,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
           <nav aria-label="Admin Navigation" style={{ display: "flex", gap: "var(--space-xs)", alignItems: "center" }}>
             <Link href="/admin" className="chip">Overview</Link>
+            <Link href="/admin/analytics" className="chip">Traffic</Link>
             <Link href="/admin/books" className="chip">Books</Link>
             <Link href="/admin/quests" className="chip">Quests</Link>
             <Link href="/admin/orders" className="chip">Orders</Link>

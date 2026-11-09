@@ -80,7 +80,8 @@ export const ModelName = {
   HelpArticle: 'HelpArticle',
   Reward: 'Reward',
   Redemption: 'Redemption',
-  Coupon: 'Coupon'
+  Coupon: 'Coupon',
+  PageView: 'PageView'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -534,6 +535,19 @@ export const CouponScalarFieldEnum = {
 } as const
 
 export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
+
+
+export const PageViewScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  dayKey: 'dayKey',
+  referrerHost: 'referrerHost',
+  country: 'country',
+  visitorKey: 'visitorKey',
+  createdAt: 'createdAt'
+} as const
+
+export type PageViewScalarFieldEnum = (typeof PageViewScalarFieldEnum)[keyof typeof PageViewScalarFieldEnum]
 
 
 export const SortOrder = {

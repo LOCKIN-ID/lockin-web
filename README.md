@@ -7,7 +7,7 @@ Built with [hallmark](https://github.com/nutlope/hallmark) (commit `7ec868225c6c
 ```
 Hallmark static: 0 FAIL · 0 REFLEX · 0 WARN across 55 files
 Hallmark render: 0 FAIL across 12 public routes
-47/47 unit tests passing · 51/51 routes statically/SSG compiled · 6/6 smoke flows verified
+63/63 unit tests passing · 50 app routes compiled (11 prerendered) · 6/6 smoke flows verified
 ```
 
 ---
@@ -49,6 +49,7 @@ Hallmark render: 0 FAIL across 12 public routes
 
 ### 7. Administrative Suite
 - Comprehensive admin operations at `/admin`: orders audit, catalog management, PDF upload, QR regeneration, user roles & XP adjustment, email queue management, and support ticket desk.
+- **Traffic Console** at `/admin/analytics`: first-party page views — no cookie, no stored address, a one-way visitor value that re-keys at Jakarta midnight — with visitors per day, top paths, source hosts, edge countries, and a 90-day retention the daily job enforces.
 
 ### 8. Printable A4 PDF Pipeline
 - Dedicated printable route (`/print/books/[slug]`) adhering strictly to A4 margins and Hallmark typography.

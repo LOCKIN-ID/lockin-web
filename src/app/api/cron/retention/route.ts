@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 
+import { prunePageViews } from "@/lib/analytics";
 import { drainQueue, enqueueScheduled } from "@/lib/email/queue";
 import { expireStaleOrders } from "@/lib/payments/order";
 
@@ -36,6 +37,9 @@ export async function GET(request: Request) {
   const expired = await expireStaleOrders(now);
   const { queued } = await enqueueScheduled(now);
   const drained = await drainQueue(25, now);
+  // The traffic rows are the other thing on a clock: a page view is kept 90 days and no
+  // longer, which is a promise the privacy article makes and this job keeps.
+  const prunedViews = await prunePageViews(now);
 
   return Response.json({
     expired,
@@ -44,6 +48,7 @@ export async function GET(request: Request) {
     failed: drained.failed,
     skipped: drained.skipped,
     remaining: drained.remaining,
+    prunedViews,
     at: now.toISOString(),
   });
 }

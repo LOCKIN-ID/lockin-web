@@ -484,3 +484,25 @@ model Coupon {
   expiresAt     DateTime?
   active        Boolean   @default(true)
 }
+
+// ---- traffic ---------------------------------------------------------------
+
+// One page open, counted by the app itself: what `/admin/analytics` reads. Nothing here
+// identifies a person: `visitorKey` is a one-way value derived from the address and the
+// browser string, re-keyed at every Jakarta midnight, and the address itself is never
+// stored. `dayKey` is the Jakarta day the open belongs to, so the daily rollup is a
+// `groupBy` rather than a date function SQLite would have to be taught.
+model PageView {
+  id           String   @id @default(uuid())
+  path         String
+  dayKey       String // "YYYY-MM-DD", Asia/Jakarta
+  referrerHost String?
+  country      String? // the alpha-2 the edge reported, never an address
+  visitorKey   String? // null when no address was available to derive one from
+  createdAt    DateTime @default(now())
+
+  @@index([dayKey])
+  @@index([path, dayKey])
+  @@index([visitorKey, dayKey])
+  @@index([createdAt])
+}

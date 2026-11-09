@@ -266,11 +266,13 @@ We do not issue certificates. What we can show you is a real record: sections fi
     summary: "The account, the progress, the orders: and the three things that never leave your browser.",
     keywords: "privacy data personal information delete account gdpr trackers cookies analytics storage",
     sortOrder: 10,
-    bodyMd: `Everything below is what the running site stores, and the one thing it counts. There is no advertising pixel and no cross-site tracker in the page.
+    bodyMd: `Everything below is what the running site stores, and the two things it counts. There is no advertising pixel and no cross-site tracker in the page.
 
 ## What is counted
 
-Page views go to Cloudflare Web Analytics. It sets no cookie and keeps no identifier that follows you to another site: it records that a page was opened, which page linked to it, and which country asked. Nothing you type reaches it, and none of it is tied to your account.
+The site counts its own page opens. One row is a path, the host that linked to it, the country the edge reported, and a one-way value derived from your address and your browser string that is re-keyed at every Jakarta midnight: that value is how two visitors are told apart within a day, and it is the only trace an address leaves. The address itself is never stored, no address is ever written beside a path, and a query string is dropped before a path is stored. Rows are kept ninety days and deleted by the daily retention job. The counter does not start at all when the browser asks not to be measured: Do Not Track, Global Privacy Control, or a script walking the site.
+
+Page views also go to Cloudflare Web Analytics. It sets no cookie and keeps no identifier that follows you to another site: it records that a page was opened, which page linked to it, and which country asked. Nothing you type reaches either counter, and neither is tied to your account.
 
 ## On your account
 
