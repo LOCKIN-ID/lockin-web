@@ -149,7 +149,7 @@ your change touches their area.
 
 | Command | Needs | Covers |
 | --- | --- | --- |
-| `npm run smoke` | dev server on :3000; Chrome/Chromium (`CHROME_PATH`, or `scripts/chrome-path.mjs` finds one) | six end-to-end flows: landing, catalogue, roadmap, help search, pricing, QR redirect |
+| `npm run smoke` | dev server on :3000; Chrome/Chromium (`CHROME_PATH`, or `scripts/chrome-path.mjs` finds one) | six end-to-end flows: landing, catalogue, playground, help search, pricing, QR redirect |
 | `npm run shots` | dev server; Chrome; seeded users | screenshot audit of learner and admin surfaces into `.hallmark/shots/` |
 | `npm run ebook:pdf` | dev server; Chrome | prints the three A4 PDFs into `public/ebooks/`, asserting 15–25 pages each |
 | `npm run design:lint` | **unusable here** | see below |

@@ -143,7 +143,7 @@ export function CheckpointView({ bookSlug, chapterId, checkpoint, onFinish }: Pr
 
         <div style={{ display: "flex", gap: "var(--space-sm)", marginTop: "var(--space-md)" }}>
           <button type="button" className="btn btn--quiet btn--sm" onClick={handleRetry}>
-            🔄 Retry with shuffled options
+            🔄 Shuffle and retry
           </button>
         </div>
       </div>

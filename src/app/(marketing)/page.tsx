@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "LOCK.IN",
+  },
+};
 
 import { Hero } from "@/components/marketing/hero";
 import { TaglineStrip } from "@/components/marketing/tagline-strip";

@@ -69,6 +69,8 @@
   --dur-micro: 320ms;
   --dur-short: 480ms;
   --dur-long: 720ms;
+  /* The press of a control: fast enough to read as a response, not a move. */
+  --dur-press: 90ms;
 
   --container: 1080px;
   --gutter: 56px;
@@ -78,6 +80,10 @@
   --section-gap-l: 136px;
 
   --rule-hair: 1px;
+
+  /* A control never grows past the hero's (234px in the Studio Cuts head). Wider
+   * than that and the fill has further to travel than the label it wipes over. */
+  --btn-max: 15rem;
 
   --z-base: 1;
   --z-raised: 10;

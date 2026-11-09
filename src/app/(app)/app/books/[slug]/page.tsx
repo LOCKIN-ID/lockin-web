@@ -71,7 +71,7 @@ export default async function ReaderPage({ params }: Props) {
 
             <div style={{ display: "flex", gap: "var(--space-sm)", flexWrap: "wrap", justifyContent: "center" }}>
               <Link href={`/pricing`} className="btn">
-                Upgrade to Pro or Lifetime
+                View upgrade options
               </Link>
               <Link href="/app/library" className="btn btn--quiet">
                 &larr; Back to Library

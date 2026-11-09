@@ -276,7 +276,7 @@ export function BookExhibition({ books }: Props) {
                   <div>
                     <Link
                       href={`/books/${b.slug}`}
-                      className="btn btn--pro btn-sweep-horizontal"
+                      className="btn btn--pro"
                       style={{ display: "inline-flex", minWidth: "200px", justifyContent: "center" }}
                     >
                       <span>Buka Modul Sekarang</span>

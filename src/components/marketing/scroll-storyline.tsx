@@ -1,13 +1,10 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import Link from "next/link";
 import { Topography } from "@/components/brand/topography";
 import { BookExhibition } from "@/components/marketing/book-exhibition";
 import { TornPaperEdge } from "@/components/brand/torn-paper";
 import type { BookContent } from "@/content/types";
-import { priceLabel } from "@/lib/format";
-import { PLANS } from "@/content/plans";
 
 interface ScrollStorylineProps {
   books: BookContent[];
@@ -409,143 +406,6 @@ export function ScrollStoryline({
                 Eksekusi langsung di peramban tanpa instalasi lokal
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      {/* Torn paper transition: Section 3 (Dark) to Section 4 (Paper) */}
-      <TornPaperEdge variant="dark-to-paper" index={3} />
-
-      {/* ===================================================================
-          CHAPTER 04: The Finale & Transparent Gateway
-          =================================================================== */}
-      <section
-        id="gateway"
-        className="story-act"
-        style={{
-          position: "relative",
-          background: "var(--color-paper)",
-          color: "var(--color-ink)",
-          paddingBlock: "var(--space-4xl)",
-          overflow: "hidden",
-        }}
-      >
-        <Topography variant="paper" />
-
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div className="story-act__head" data-reveal="up" style={{ textAlign: "center", maxWidth: "60ch", margin: "0 auto var(--space-2xl)" }}>
-            <h2 style={{ fontSize: "var(--text-display-s)", lineHeight: 1.15, marginTop: "var(--space-sm)" }}>
-              Pilihan akses.{" "}
-              <span className="highlight-mint">Mulai gratis.</span>
-            </h2>
-          </div>
-
-          {/* Snowhouse Connected Pricing Table (3 Columns, Web Palette, Zero Icons/Emots) */}
-          <div className="snowhouse-table" data-reveal="plate">
-            {/* Col 1: Starter / Free */}
-            <div className="snowhouse-col">
-              <div>
-                <div className="snowhouse-col__strip snowhouse-col__strip--starter">
-                  <span className="snowhouse-col__strip-title">Starter</span>
-                </div>
-                <div className="snowhouse-col__body">
-                  <div className="snowhouse-col__price-block">
-                    <span className="snowhouse-col__price">Rp 0</span>
-                    <span className="snowhouse-col__period"> / selamanya</span>
-                  </div>
-                  <p className="snowhouse-col__desc">
-                    Akses modul pengantar 10–15 halaman, panduan interaktif, dan 10 sesi bantuan AI harian.
-                  </p>
-                  <ul className="snowhouse-col__list">
-                    <li>Modul 01 Lengkap</li>
-                    <li>Panduan Interaktif</li>
-                    <li>10 Sesi AI harian</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="snowhouse-col__bottom">
-                <Link
-                  href="/books?tier=beginner"
-                  className="btn btn--outline-paper btn-sweep-vertical"
-                  style={{ width: "100%", justifyContent: "center" }}
-                >
-                  <span>Mulai Gratis</span>
-                  <span className="btn-arrow" aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Col 2: Bundle 3 Buku (Featured) */}
-            <div className="snowhouse-col">
-              <div>
-                <div className="snowhouse-col__strip snowhouse-col__strip--bundle">
-                  <span className="snowhouse-col__strip-title">Bundle 3 Buku</span>
-                </div>
-                <div className="snowhouse-col__body">
-                  <div className="snowhouse-col__price-block">
-                    <span className="snowhouse-col__price">Rp 20.000</span>
-                    <span className="snowhouse-col__strikethrough">Rp 45.000</span>
-                  </div>
-                  <p className="snowhouse-col__desc">
-                    Akses seluruh 3 seri buku (10–15 halaman per buku). Hak milik permanen tanpa langganan.
-                  </p>
-                  <ul className="snowhouse-col__list">
-                    <li>3 E-Book Full PDF + EPub</li>
-                    <li>Seluruh Checkpoint Latihan</li>
-                    <li>Hak Milik Permanen</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="snowhouse-col__bottom">
-                <Link
-                  href="/pricing"
-                  className="btn btn--bundle btn-sweep-vertical"
-                  style={{ width: "100%", justifyContent: "center" }}
-                >
-                  <span>Beli Paket Bundle</span>
-                  <span className="btn-arrow" aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Col 3: Web Pro */}
-            <div className="snowhouse-col">
-              <div>
-                <div className="snowhouse-col__strip snowhouse-col__strip--pro">
-                  <span className="snowhouse-col__strip-title">Web Pro</span>
-                </div>
-                <div className="snowhouse-col__body">
-                  <div className="snowhouse-col__price-block">
-                    <span className="snowhouse-col__price">Rp 49.000</span>
-                    <span className="snowhouse-col__period"> / akun</span>
-                  </div>
-                  <p className="snowhouse-col__desc">
-                    Akses tak terbatas ke Socratic AI tutor, semua materi buku baru, dan panduan lanjutan.
-                  </p>
-                  <ul className="snowhouse-col__list">
-                    <li>Semua Seri E-Book</li>
-                    <li>Unlimited Socratic AI</li>
-                    <li>Akses Materi Baru</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="snowhouse-col__bottom">
-                <Link
-                  href="/pricing"
-                  className="btn btn--pro btn-sweep-vertical"
-                  style={{ width: "100%", justifyContent: "center" }}
-                >
-                  <span>Langganan Pro</span>
-                  <span className="btn-arrow" aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ marginTop: "var(--space-xl)", textAlign: "center" }}>
-            <Link href="/books" className="btn btn--catalogue-cta btn-sweep-vertical">
-              <span>Lihat Seluruh Katalog E-Book ({books.length} Buku)</span>
-              <span className="btn-arrow" aria-hidden="true">→</span>
-            </Link>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import localFont from "next/font/local";
 import { Space_Grotesk, Plus_Jakarta_Sans, Archivo, Inter, JetBrains_Mono } from "next/font/google";
 
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "LOCK.IN",
   title: {
-    default: "LOCK.IN: short, interactive e-books",
+    default: "LOCK.IN",
     template: "%s | LOCK.IN",
   },
   description:
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_ID",
     siteName: "LOCK.IN",
-    title: "LOCK.IN: short, interactive e-books",
+    title: "LOCK.IN",
     description:
       "15 to 25 pages per book, three levels, four runtimes in the browser, a coach that hints instead of answering.",
     url: siteUrl,
@@ -65,6 +66,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         {children}
+        {/* Cloudflare Web Analytics: cookieless page counts. Added by hand because
+          * a Workers/Pages deploy gets no beacon injection at the edge. */}
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          type="module"
+          data-cf-beacon='{"token": "745620f91663455395bbb2caaad73650"}'
+        />
       </body>
     </html>
   );

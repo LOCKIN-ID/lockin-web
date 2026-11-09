@@ -37,7 +37,6 @@ const ROUTES = [
   "/books/intermediate",
   "/books/expert",
   "/pricing",
-  "/roadmap",
   "/help",
   "/contact",
   "/playground",

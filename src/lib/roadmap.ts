@@ -4,7 +4,7 @@
  * Every book carries its own `roadmap` array; this module stitches the three into one
  * graph in tier order and answers the two questions the product asks of it: what is done,
  * and what is the next thing (the dashboard's "continue" card, the weekly digest's one
- * suggestion, and the `/roadmap` page's lanes).
+ * suggestion).
  *
  * A node's progress is the sections of its chapter that the reader has finished. That is
  * the honest number: a node is not "done" because it was opened.
